@@ -12,6 +12,7 @@ from .models import Portfolio
 
 # Create your views here.
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_portfoilo(request):
 	serializer = PortfolioSerializer(data=request.data)
 	if serializer.is_valid(raise_exception=True):
@@ -20,6 +21,7 @@ def create_portfoilo(request):
 
 
 @api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
 def get_portfolio(request):
 	portfolio = get_object_or_404(Portfolio, user=request.user)
 	if request.method == 'GET':

@@ -16,6 +16,8 @@ import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 
+import PortfolioCreateView from '@/views/PortfolioCreateView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -78,6 +80,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/portfolio',
+      name: 'portfolio',
+      component: PortfolioCreateView
     },
   ]
 })
