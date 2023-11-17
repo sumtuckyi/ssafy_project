@@ -13,7 +13,9 @@
       <a @click="userStore.logOut" v-if="userStore.isLogin">Logout</a>
     </nav>
     <p v-if="userStore.isLogin">{{ userStore.user.pk }}님 안녕하세요!</p>
-    <RouterLink :to="{ name: 'profile' }">Profile</RouterLink>
+    <RouterLink 
+      v-if="userStore.isLogin"
+     :to="{ name: 'profile' }">Profile</RouterLink>
   </div>
   <RouterView />
 </template>

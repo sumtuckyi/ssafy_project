@@ -17,6 +17,8 @@ import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 
 import PortfolioCreateView from '@/views/PortfolioCreateView.vue'
+import PortfolioDetailView from '@/views/PortfolioDetailView.vue'
+import PortfolioUpdateView from '@/views/PortfolioUpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -82,9 +84,19 @@ const router = createRouter({
       component: ProfileView
     },
     {
-      path: '/portfolio',
-      name: 'portfolio',
+      path: '/portfoliocreate',
+      name: 'portfoliocreate',
       component: PortfolioCreateView
+    },
+    {
+      path: '/portfoliodetail',
+      name: 'portfoliodetail',
+      component: PortfolioDetailView
+    },
+    {
+      path: '/portfolioupdate',
+      name: 'portfolioupdate',
+      component: PortfolioUpdateView
     },
   ]
 })

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Portfolio Create</h1>
-    <form @submit.prevent="createPortfolio">
+    <h1>Portfoli Update</h1>
+    <form @submit.prevent="updatePortfolio">
       <label for="job">직업: </label>
       <select name="jobs" id="job" v-model.trim="job" required>
         <option disabled value="">옵션을 선택해주세요.</option>
@@ -35,7 +35,7 @@
         <option value="성실형">성실형</option>
       </select>
       <br>
-      <input type="submit">
+      <input type="submit" value="수정">
     </form>
   </div>
 </template>
@@ -48,13 +48,13 @@ import axios from 'axios';
 
 const userStore = useUserStore()
 const router = useRouter()
-const job = ref('')
-const income = ref('')
-const age = ref('')
-const prefferedBank = ref('')
-const investmentType = ref('')
+const job = ref(userStore.portfolio.job)
+const income = ref(userStore.portfolio.income)
+const age = ref(userStore.portfolio.age)
+const prefferedBank = ref(userStore.portfolio.preffered_bank)
+const investmentType = ref(userStore.typeChange[userStore.portfolio.investment_type])
 
-const createPortfolio = function () {
+const updatePortfolio = function () {
   const payload = {
     job: job.value,
     income: income.value,
@@ -62,9 +62,8 @@ const createPortfolio = function () {
     preffered_bank: prefferedBank.value,
     investment_type: investmentType.value
   }
-  userStore.createPortfolio(payload)
+  userStore.updatePortfolio(payload)
 }
-
 </script>
 
 <style scoped>

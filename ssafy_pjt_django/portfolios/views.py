@@ -22,7 +22,7 @@ def create_portfoilo(request):
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
-def get_portfolio(request):
+def portfolio_detail(request):
 	portfolio = get_object_or_404(Portfolio, user=request.user)
 	if request.method == 'GET':
 		serializer = PortfolioSerializer(portfolio)
