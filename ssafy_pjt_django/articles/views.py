@@ -71,3 +71,14 @@ def comment_detail(request, article_pk, comment_pk):
 		if comment.user == request.user:
 			comment.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
+		
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def likes(request, article_pk):
+    article = Article.objects.get(pk=article_pk)
+    if request.user in article.like_users.all():
+        article.like_users.remove(request.user)
+    else:
+        article.like_users.add(request.user)
+    return Response(status=status.HTTP_200_OK)
