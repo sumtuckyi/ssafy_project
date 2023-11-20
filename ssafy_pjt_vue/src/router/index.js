@@ -20,6 +20,17 @@ import PortfolioCreateView from '@/views/PortfolioCreateView.vue'
 import PortfolioDetailView from '@/views/PortfolioDetailView.vue'
 import PortfolioUpdateView from '@/views/PortfolioUpdateView.vue'
 
+import MainPage from '@/MainPage.vue'
+import MapView from '@/views/MapView.vue'
+import ExchangeView from '@/views/ExchangeView.vue'
+import ProductView from '@/views/ProductView.vue'
+import DepositProductView from '@/views/DepositProductView.vue'
+import SavingProductView from '@/views/SavingProductView.vue'
+import DepositProductDetailView from '@/views/DepositProductDetailView.vue'
+import SavingProductDetailView from '@/views/SavingProductDetailView.vue'
+import BestProductSearchView from '@/views/BestProductSearchView.vue'
+import BankSearchResultView from '@/views/BankSearchResultView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -98,6 +109,58 @@ const router = createRouter({
       name: 'portfolioupdate',
       component: PortfolioUpdateView
     },
+    {
+      path: '/',
+      name: 'main',
+      component: MainPage
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: MapView
+    },
+    {
+      path: '/exchange',
+      name: 'exchange',
+      component: ExchangeView
+    },
+    {
+      path: '/product',
+      name: 'product',
+      component: ProductView
+    },
+    {
+      path: '/deposit',
+      name: 'deposit',
+      component: DepositProductView
+    },
+    {
+      path: '/saving',
+      name: 'saving',
+      component: SavingProductView
+    },
+    {
+      path: '/deposit/:id',
+      name: 'depositDetail',
+      component: DepositProductDetailView
+    },
+    {
+      path: '/saving/:id',
+      name: 'savingDetail',
+      component: SavingProductDetailView
+    },
+    {
+      path: '/search/:type/:per',
+      name: 'searchBestPdt',
+      component: BestProductSearchView,
+      props: true
+    },
+    {
+      path: '/search_pdt/:name',
+      name: 'bankSearch',
+      component: BankSearchResultView,
+      props: true,
+    }
   ]
 })
 

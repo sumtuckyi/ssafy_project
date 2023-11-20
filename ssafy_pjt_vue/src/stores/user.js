@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', () => {
       return true
     }
   })
+  const isStaff = ref(false)
 
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -99,6 +100,7 @@ export const useUserStore = defineStore('user', () => {
       }
     })
       .then((res) => {
+        console.log(res.data)
         user.value = res.data
       })
       .catch(err => console.log(err))
@@ -161,7 +163,7 @@ export const useUserStore = defineStore('user', () => {
     })
       .then((res) => {
         portfolio.value = res.data
-        router.push({ name: 'profile' })
+        router.push({ name: 'portfoliodetail' })
       })
       .catch((err) => {
         console.log(err)
