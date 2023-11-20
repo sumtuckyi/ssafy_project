@@ -4,9 +4,12 @@ import axios from 'axios'
 
 export const useCounterStore = defineStore('counter', () => {
   const API_URL = 'http://127.0.0.1:8000'
-  const ArrForCmpDep = ref([])
+  const ArrForDepCom = ref([])// 예금 상품 비교
+  const ArrForSavCom = ref([]) //적금 상품 비교
+  
   const depPdtList = ref([])
-  const savPdtList = ref([])
+  const savPdtList = ref([]) 
+  
 
   const cur_unit_code = {
     'AED': '아랍에미리트 디르함',
@@ -59,11 +62,24 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-  // 장고 서버에 요청을 보내 해당 예금상픔의 옵션을 전부 가져오기
+  // 장고 서버에 요청을 보내 해당 예금상품의 옵션을 전부 가져오기
   const get_dep_opts = function (fin_prdt_cd) {
     axios({
       method: 'get',
       url: `${API_URL}/api2/deposits/options/${fin_prdt_cd}/`
+    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const get_sav_opts = function (fin_prdt_cd) {
+    axios({
+      method: 'get',
+      url: `${API_URL}/api2/savings/options/${fin_prdt_cd}/`
     })
       .then((res) => {
         console.log(res)
@@ -102,5 +118,6 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-  return { API_URL, cur_unit_code, get_dep, get_sav, ArrForCmpDep, get_dep_opts, save_deposits, save_savings, depPdtList, savPdtList }
+  return { API_URL, cur_unit_code, get_dep, get_sav, ArrForDepCom, ArrForSavCom, get_dep_opts, get_sav_opts,
+    save_deposits, save_savings, depPdtList, savPdtList }
 }, { persist: true })

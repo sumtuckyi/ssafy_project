@@ -2,12 +2,13 @@
 	<div>
 		<div>
 			<h1>예금 상품 조회</h1>
-			<router-link :to="{ name: 'saving' }">적금 상품 조회</router-link>
+			<router-link :to="{ name: 'saving' }"><button>적금 상품 조회</button></router-link>
 		</div>
 		<div 
 			v-for="product in products"
 			:key="product.id"
 			class="box"
+			@click="goDetail(product.fin_prdt_cd)"
 		>
 			<button @click="showOpts(product.fin_prdt_cd)">options</button>
 			<div @click="goDetail(product.fin_prdt_cd)">
@@ -34,7 +35,6 @@ const goDetail = function (key) {
 const showOpts = function (fin_prdt_cd) {
 	store.get_dep_opts(fin_prdt_cd)
 }
-
 onMounted(() => {
 	store.get_dep()
 	axios({

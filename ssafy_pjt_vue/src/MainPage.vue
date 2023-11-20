@@ -109,7 +109,7 @@ startCarousel();
 
 <style scoped>
 body {
-    height: 1000px;
+    height: 100vh;
 }
 #carousel-container {
     border: 1px gray solid;
@@ -145,7 +145,10 @@ body {
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.5s;
 }
-
+#news a {
+    text-decoration: none;
+    color: black;
+}
 .fade-enter, .fade-leave-to {
     opacity: 0;
 }

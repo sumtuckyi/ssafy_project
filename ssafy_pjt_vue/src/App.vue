@@ -2,10 +2,10 @@
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink :to="{ name: 'main' }"><span>BankMATE</span></RouterLink> 
-        <RouterLink :to="{ name: 'exchange' }"><p>Exchange</p></RouterLink>
-        <RouterLink :to="{ name: 'map' }">Map</RouterLink>
-        <RouterLink :to="{ name: 'product' }">Fin Products</RouterLink>
+        <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span></RouterLink> 
+        <RouterLink :to="{ name: 'exchange' }"><p>환전</p></RouterLink>
+        <RouterLink :to="{ name: 'map' }">은행찾기</RouterLink>
+        <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
 
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/articles">Articles</RouterLink>
@@ -33,53 +33,55 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue'
 import Footer from '@/components/footer.vue'
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore()
+
 </script>
 
 
 <style scoped>
 header {
 	background-color: transparent;
-  color: #1B4DFF;
+  color: #00B6FF;
   height: 50px;
+  padding: 1rem;
 }
 body {
-  height: 1000px;
+  height: 100vh;
 }
+.home {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
 .wrapper {
   height: 100%;
 }
 nav {
   width: 100%;
+  color: #00B6FF;
   text-align: center;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 1rem;
   background-color: transparent;
 }
-#snowman {
-  font-family: daylife day;
-}
+
 span {
   font-size: 1.5rem;
-  font-weight: bold;
-  font-family:'Times New Roman', Times, serif;
-}
-nav a.router-link-exact-active {
+  font-weight: 600;
   color: #1B4DFF;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
 
 nav a {
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
   text-decoration: none;
+  color: #00B6FF;
 }
 
 nav a:first-of-type {

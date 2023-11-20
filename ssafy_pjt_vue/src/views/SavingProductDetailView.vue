@@ -1,29 +1,123 @@
 <template>
 	<div>
+		<button @click="goBack">뒤로가기</button>
 		<h1>적금 상품 상세 정보</h1>
 		<div class="box">
 			<h3>{{ data.fin_prdt_nm }}</h3>
 			<p>가입 방법:{{ data.join_way }}</p>
 			<p>만기 후 이자율:{{ data.mtrt_int }}</p>
 			<p>가입대상: {{ data.join_member }}</p>
-			<p>최고한도: {{ data.max_limit }}</p>
+			<p>최고한도: {{ max_limit }}</p>
 			<p>우대조건: {{ data.spcl_cnd }}</p>
 			<p>가입제한: {{ data.join_deny }}</p>
 			<p>기타 유의사항: {{ data.etc_note }}</p>
 			<button>가입하기</button>
 			<button>관심상품에 저장</button>
+			<button @click="addToArray(data)">비교하기</button>
+		</div>
+		<div v-if="showModal" class="modal">
+			<div class="modal-content">
+				<button @click="closeModal">닫기</button>
+				<h3>상품 비교하기</h3>
+				<p v-if="isEmpty">아직 담은 상품이 없습니다.</p>
+				<table v-else>
+					<thead>
+						<tr>
+							<th>상품명</th>
+							<th>은행명</th>
+							<th>우대조건</th>
+							<th>최고한도</th>
+							<th>기타사항</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="item in Arr" :key="item.id">
+							<td>{{ item.fin_prdt_nm }}</td>
+							<td>{{ item.kor_co_nm }}</td>
+							<td>{{ item.spcl_cnd }}</td>
+							<td>{{ max_limit }}</td>
+							<td>{{ item.etc_note }}</td>
+							<button @click="deletePdt(item.id)">삭제</button>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- <div class="container">
+					<div v-for="item in Arr" :key="item.id" class="card">
+						<button @click="deletePdt(item.id)">삭제</button>
+						<p>{{ item.fin_prdt_nm }}</p>
+						<p>{{ item.kor_co_nm }}</p>
+						<p>{{ item.spcl_cnd }}</p>
+						<p v-if="item.max_limit != -1">{{ item.max_limit }}</p>
+						<p v-else>제한없음</p>
+						<p>{{ item.etc_note }}</p>
+					</div>
+				</div> -->
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import { useCounterStore } from '../stores/counter';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
 
 const store = useCounterStore()
 const route = useRoute()
+const router = useRouter()
+const showModal = ref(false)
+const isEmpty = computed(() => {
+	return Arr.value.length === 0
+})
+// 비교할 상품 2개를 담을 배열
+let Arr = ref(store.ArrForSavCom)
+// const ArrForCmp = ref([])
+// 사용자가 클릭하면 해당 상품을 비교상품 배열에 추가 - 중복 제거, 2개로 제한
+const addToArray = function (product) {
+	// console.log(store.ArrForCmpDep)
+
+	if(Arr.value.length < 2){
+		if(Arr.value.length === 0) {
+			Arr.value.push(product)
+			// 한 개가 담겼을 때, 모달 띄우기
+			showModal.value = true
+		} else {
+			if(Arr.value[0].id != product.id){
+				Arr.value.push(product)
+				showModal.value = true
+				console.log(Arr.value)
+			} else {
+				const answer = window.confirm('이미 담은 상품입니다.')
+				if (answer === true) {
+					showModal.value = true
+				}
+			}
+		}
+		
+	} else {
+		const answer = window.confirm('이미 2개의 상품을 담았습니다.')
+		if (answer === true) {
+			showModal.value = true
+		}
+	}
+}
+const closeModal = function () {
+	showModal.value = false
+}
+
+// 비교함에 담은 상품 삭제하기
+const deletePdt = function (id) {
+	Arr.value = Arr.value.filter((item) => item.id !== id)
+	store.ArrForSavCom = Arr.value
+	console.log(id)
+	console.log(Arr.value)
+}
+
+const max_limit = computed(() => {
+	return data.value.max_limit !== -1 ? data.value.max_limit : '없음'
+})
 
 const data = ref('')
 const fin_prdt_cd = route.params.id
@@ -40,6 +134,10 @@ onMounted(() => {
 			console.log(err)
 		})
 })
+
+const goBack = function () {
+	router.go(-1)
+}
 </script>
 
 <style scoped>
@@ -47,4 +145,89 @@ onMounted(() => {
 	padding: 2rem;
 	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+	position: relative;
+  width: 80%;
+  height: max-content;
+  background-color: #60A5FA;
+	/* Permalink - use to edit and share this gradient. 퍼머링크 - 이 그라디언트를 편집하고 공유하는 데 사용: https://colorzilla.com/gradient-editor/#1e5799+0,7db9e8+100&1+0,0+100;Blue+to+Transparent */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: white;
+  padding: 1rem;
+  margin: 0 auto;
+  animation: move 0.1s ease-in;
+}
+.modal-content button {
+	position: fixed;
+	top: 0;
+	right: 0;
+	
+}
+.container {
+	display: flex;
+	justify-content: center;
+}
+.card {
+	position: relative;
+	margin: 0;
+	width: 40%;
+	border: white 0.5px solid;
+}
+.card button {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.card p{
+	margin: 0;
+	padding: 0.5rem;
+	font-size: 1rem;
+}
+@keyframes move {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Apply a border and some padding to the table */
+table {
+  border-collapse: collapse;
+  width: 70%;
+  overflow: scroll;
+  overflow-x: scroll;
+}
+
+/* Style the table header */
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Add background color to alternating rows for better readability */
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
+
+/* Style the table header */
+th {
+  color: white;
+}
+
 </style>

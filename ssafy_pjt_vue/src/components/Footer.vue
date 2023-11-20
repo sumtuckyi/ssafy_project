@@ -20,8 +20,8 @@
 
 <style scoped>
 footer {
-background-color: #FEFCC2;
-color: black;
+background-color: #1B4DFE;
+color: #fff;
 padding: 20px 0;
 text-align: center;
 z-index: 9000;
@@ -38,6 +38,7 @@ margin: 0 auto;
 nav ul {
 list-style: none;
 padding: 0;
+margin: 0;
 display: flex;
 }
 
@@ -46,7 +47,7 @@ margin-right: 20px;
 }
 
 nav a {
-color: black;
+color: #fff;
 text-decoration: none;
 }
 </style>

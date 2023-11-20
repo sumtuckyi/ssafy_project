@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <p>{{ type }}상품 중 가장 금리가 높은 상품 4개를 보여드릴게요.</p>
+    <div class="container">
+        <p class="intro">{{ type_of_pdt }}상품 중 가장 금리가 높은 상품 4개를 보여드릴게요.</p>
         <div>
             <ul>
                 <li v-for="pdt in bestPdt" :key="pdt.id">
-                    <p>id: {{ pdt.id }}</p>
+                    <!-- <p>id: {{ pdt.id }}</p> -->
                     <p>은행: {{ pdt.kor_co_nm }}</p>
                     <p>상품명: {{ pdt.fin_prdt_nm }}</p>
-                    <p v-for="opt in pdt.opts" :key="opt.id">최고 우대 금리: {{ opt.intr_rate2 }} /적립 유형 : {{ opt.rsrv_type_nm }}</p>
+                    <p v-for="opt in pdt.opts" :key="opt.id">최고 우대 금리: {{ opt.intr_rate2 }} / 적립 유형 : {{ opt.rsrv_type_nm }}</p>
                 </li>
                 <!-- <li v-for="pdt in bestPdt" :key="pdt.id">
                     <p>id: {{ pdt.id }}</p>
@@ -33,6 +33,7 @@ const route = useRoute()
 const type = route.params.type
 const per = route.params.per 
 const fin_co_no = []
+const type_of_pdt = type === 'dep' ? '예금' : '적금'
 
 // db에서 최고 금리 옵션과 연결된 상품을 찾아서 가져오기 
 const get_best_four = function () {
@@ -78,5 +79,27 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.intro {
+    margin: 2rem;
+    padding: 1.5rem;
+    font-size: 2rem;
+}
+ul {
+    list-style: none;
+}
+li {
+    width: 100%;
+    padding: 2rem;
+    margin: 1rem;
+    line-height: 2;
+    font-size: 1.25rem;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 5px;
+}
 </style>

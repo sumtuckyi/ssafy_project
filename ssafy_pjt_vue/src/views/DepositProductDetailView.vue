@@ -21,16 +21,14 @@
 				<h3>상품 비교하기</h3>
 				<p v-if="isEmpty">아직 담은 상품이 없습니다.</p>
 				<div class="container">
-					<div v-for="item in ArrForCmp" :key="item.id" class="card">
+					<div v-for="item in Arr" :key="item.id" class="card">
 						<button @click="deletePdt(item.id)">삭제</button>
 						<p>{{ item.fin_prdt_nm }}</p>
 						<p>{{ item.kor_co_nm }}</p>
 						<p>{{ item.mtrt_int }}</p>
 					</div>
 				</div>
-				
 			</div>
-			
 		</div>
 	</div>
 </template>
@@ -46,24 +44,24 @@ const route = useRoute()
 const router = useRouter()
 const showModal = ref(false)
 const isEmpty = computed(() => {
-	return ArrForCmp.value.length === 0
+	return Arr.value.length === 0
 })
 // 비교할 상품 2개를 담을 배열
-let ArrForCmp = ref(store.ArrForCmpDep)
+let Arr = ref(store.ArrForDepCom)
 // 사용자가 클릭하면 해당 상품을 비교상품 배열에 추가 - 중복 제거, 2개로 제한
 const addToArray = function (product) {
-	console.log(store.ArrForCmpDep)
+	// console.log(store.ArrForCmpDep)
 
-	if(ArrForCmp.value.length < 2){
-		if(ArrForCmp.value.length === 0) {
-			ArrForCmp.value.push(product)
+	if(Arr.value.length < 2){
+		if(Arr.value.length === 0) {
+			Arr.value.push(product)
 			// 한 개가 담겼을 때, 모달 띄우기
 			showModal.value = true
 		} else {
-			if(ArrForCmp.value[0].id != product.id){
-				ArrForCmp.value.push(product)
+			if(Arr.value[0].id != product.id){
+				Arr.value.push(product)
 				showModal.value = true
-				console.log(ArrForCmp.value)
+				// console.log(ArrForCmp.value)
 			} else {
 				const answer = window.confirm('이미 담은 상품입니다.')
 				if (answer === true) {
@@ -85,10 +83,10 @@ const closeModal = function () {
 
 // 비교함에 담은 상품 삭제하기
 const deletePdt = function (id) {
-	console.log(typeof ArrForCmp)
-	ArrForCmp.value = ArrForCmp.value.filter((item) => item.id !== id)
+	Arr.value = Arr.value.filter((item) => item.id !== id)
+	store.ArrForDepCom = Arr.value
 	console.log(id)
-	console.log(ArrForCmp.value)
+	console.log(Arr.value)
 }
 
 const max_limit = computed(() => {

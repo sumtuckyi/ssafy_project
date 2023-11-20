@@ -10,11 +10,12 @@
 			class="box"
 			@click="goDetail(product.fin_prdt_cd)"
 		>
-			<p>id : {{ product.id }}</p>
-			<p>은행 : {{ product.kor_co_nm }}</p>
-			<p>상품 : {{ product.fin_prdt_nm }}</p>
-			<p>가입방식 : {{ product.join_way }}</p>
-			<p>만기 후 이자율 : {{ product.mtrt_int }}</p>
+			<button @click="showOpts(product.fin_prdt_cd)">options</button>
+			<div @click="goDetail(product.fin_prdt_cd)">
+				<p>은행 : {{ product.kor_co_nm }}</p>
+				<p>상품 : {{ product.fin_prdt_nm }}</p>
+				<p>가입방식 : {{ product.join_way }}</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -30,6 +31,9 @@ const router = useRouter()
 const products = ref([])
 const goDetail = function (key) {
 	router.push({name: 'savingDetail', params: {id: key}})
+}
+const showOpts = function (fin_prdt_cd) {
+	store.get_sav_opts(fin_prdt_cd)
 }
 onMounted(() => {
 	store.get_sav()
@@ -49,8 +53,16 @@ onMounted(() => {
 
 <style scoped>
 .box {
+	position: relative;
 	margin: 0.5rem;
 	padding: 1rem;
-	border-bottom: 0.5px solid saddlebrown;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+}
+.box button {
+	border: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	background-color: transparent;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h3>내주변 은행 검색하기</h3>
+  <div class="container">
+    <p class="title">내주변 은행 검색하기</p>
     <form @submit.prevent="searchPlaces">
       <input type="text" v-model="keyword" placeholder="장소나 은행이름을 입력하세요.">
       <button type="submit">Search</button>
@@ -81,7 +81,7 @@ onMounted(() => {
 
       // 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성합니다
       var zoomControl = new kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+      map.addControl(zoomControl, kakao.maps.ControlPosition.TOPRIGHT);
 
 
     })
@@ -236,17 +236,17 @@ function getListItem(index, places) {
 
 var el = document.createElement('li'),
 itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-            '<div class="info">' +
-            '   <h5>' + places.place_name + '</h5>';
+            '<div class="info" style="margin:1rem; border-bottom:0.5px solid black">' +
+            '   <h4 style="margin-bottom:0.7rem">' + places.place_name + '</h4>';
 
 if (places.road_address_name) {
     itemStr += '    <span>' + places.road_address_name + '</span>' +
-                '   <span class="jibun gray">' +  places.address_name  + '</span>';
+                '   <span  class="jibun gray" style="display:block;">' +  places.address_name  + '</span>';
 } else {
-    itemStr += '    <span>' +  places.address_name  + '</span>'; 
+    itemStr += '    <span style="margin:0.3rem">' +  places.address_name  + '</span>'; 
 }
              
-  itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+  itemStr += '  <span class="tel" style="color: #1B4DFF;padding:0.5rem 0; font-weight: 700; display:block">' + places.phone  + '</span>' +
             '</div>';           
 
 el.innerHTML = itemStr;
@@ -286,7 +286,7 @@ function removeMarker() {
 // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
 // 인포윈도우에 장소명을 표시합니다
 function displayInfowindow(marker, title) {
-  var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+  var content = '<div style="padding:10px;z-index:1;">' + title + '</div>';
 
   infowindow.setContent(content);
   infowindow.open(map, marker);
@@ -315,7 +315,9 @@ function displayPagination(pagination) {
       el.href = "#";
       el.innerHTML = i;
       el.style.marginRight = "10px";
-      el.style.color = "#86B9FF"
+      el.style.color = "#F596EA"
+      el.style.fontSize = "1rem"
+      el.style.fontWeight = "700"
       el.style.textDecoration = "none"
       el.style.width = "1rem"
       el.style.height = "1rem"
@@ -349,67 +351,112 @@ function displayMarker(place) {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-form {
-  margin-bottom: 2rem;
-}
-input {
-  width: 20rem;
-  height: 2.5rem;
-  padding: 5px 12px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #24292e;
-  vertical-align: middle;
-  background-color: #ffffff;
+.container {
+  
+  background-image: url('../../public/Grad_17.png'); /* Replace with the path to your PNG file */
+  background-size: cover; /* Adjust the background size */
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
-  outline: none;
-  box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+  height: 100vh; /* Ensure the container takes the full viewport height */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-input:focus{
-    border-color: #0366d6;
-    outline: none;
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-}
-button {
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  margin-left: 1rem;
-  border-radius: 500px;
-  transition-property: background-color,border-color,color,box-shadow,filter;
-  transition-duration: .3s;
-  border: 1px solid transparent;
-  letter-spacing: 2px;
-  min-width: 160px;
-  text-transform: uppercase;
-  white-space: normal;
-  font-weight: 700;
-  text-align: center;
-  padding: 16px 14px 18px;
-  color: #616467;
-  box-shadow: inset 0 0 0 2px #616467;
-  background-color: transparent;
-  height: 0.5rem;       
-}
-button:hover{
-  color: #fff;
-  background-color: #1b4dfe;
+form {
+  margin-bottom: 1rem;
 }
 
-/* input {
-  border: none;
-  width: 25rem;
-  height: 2rem;
-} */
+input{
+  position: relative;
+  cursor: text;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0 16px;
+  height: 40px;
+  width: 240px;
+  background-color: #fff;
+  border: 1px solid #d6d6e7;
+  border-radius: 3px;
+  color: rgb(35, 38, 59);
+  box-shadow: inset 0 1px 4px 0 rgb(119 122 175 / 30%);
+  overflow: hidden;
+  transition: all 100ms ease-in-out;
+  
+}
+input:focus {
+  border-color: #3c4fe0;
+  box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
+}
+button {
+  appearance: none;
+  margin: 0.5rem;
+  height: 40px;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+button:-webkit-details-marker {
+  display: none;
+}
+
 #map {
-  width: 50%;
-  height: 400px;
-  flex: 2;
+  width: 100%;
+  height: 50vh;
+  flex: 1;
+  border-radius: 5px;
 }
 #placesList {
   height: 100%;
@@ -417,6 +464,7 @@ button:hover{
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 1rem;
+  border-radius: 5px;
 }
 #menu_wrap {
   display: flex;
@@ -424,15 +472,24 @@ button:hover{
   width: 50%;
   height: 100%;
   float: left;
+  border-radius: 5px;
 }
 .wrapper {
+  width: 80%;
   display: flex;
   height: 400px;
   margin: 100px auto;
 }
 ul {
   list-style: none;
-  margin: 0;
+  margin: 0rem;
+}
+li {
+  margin: 1rem;
+}
+.title {
+  font-size: 2rem;
+  margin: 1rem;
 }
 #pagination {
   display: flex;
@@ -442,23 +499,12 @@ ul {
   color: #fff;
   height: 10%;
 }
-/* #pagination a {
-  margin: 0.5rem;
-  width: 1rem;
-  height: 1rem;
-  color: #fff;
-  background-color: aliceblue;
-} */
+
 #pagination .on {
   font-weight: bold;
   cursor: default;
   color:#777;
 }
-.info {
-  border-bottom: 0.2px solid darkolivegreen;
-}
-#placesList .info .tel {
-  color:#009900;
-}
-#pagination a {display:inline-block;margin-right:10px;}
+
+
 </style>
