@@ -16,7 +16,7 @@ export const useCounterStore = defineStore('counter', () => {
   const cur_unit_code = {
     // 순서 바꿨음(우리은행 참고)
     'USD': '미국 달러',
-    'JPY(100)': '일본 옌',
+    'JPY(100)': '일본 옌(100)',
     'EUR': '유로',
     'GBP': '영국 파운드',
     'CAD': '캐나다 달러',
@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter', () => {
     'HKD': '홍콩 달러',
     'CNH': '위안화',
     'THB': '태국 바트',
-    'IDR(100)': '인도네시아 루피아',
+    'IDR(100)': '인도네시아 루피아(100)',
     'SEK': '스웨덴 크로나',
     'AUD': '호주 달러',
     'DKK': '덴마아크 크로네',

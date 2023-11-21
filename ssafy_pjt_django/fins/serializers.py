@@ -2,21 +2,6 @@ from rest_framework import serializers
 
 from .models import DepositProduct, DepositOption, SavingProduct, SavingOption
 
-
-class DepositProductsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DepositProduct
-        fields = '__all__'
-        read_only_fields = ('like_users',)
-
-
-class SavingProductsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SavingProduct
-        fields = '__all__'
-        read_only_fields = ('like_users',)
-
-
 class DepositOptsSerializer(serializers.ModelSerializer):
     class Meta:
         model = DepositOption
@@ -29,6 +14,22 @@ class SavingOptsSerializer(serializers.ModelSerializer):
         model = SavingOption
         fields = '__all__'
         read_only_fields = ('product', 'joined_users')
+
+
+class DepositProductsSerializer(serializers.ModelSerializer):
+    depositoption_set = DepositOptsSerializer(many=True, read_only=True)
+    class Meta:
+        model = DepositProduct
+        fields = '__all__'
+        read_only_fields = ('like_users',)
+
+
+class SavingProductsSerializer(serializers.ModelSerializer):
+    savingoption_set = SavingOptsSerializer(many=True, read_only=True)
+    class Meta:
+        model = SavingProduct
+        fields = '__all__'
+        read_only_fields = ('like_users',)
 
 
 class DepProdOptSerializer(serializers.Serializer):

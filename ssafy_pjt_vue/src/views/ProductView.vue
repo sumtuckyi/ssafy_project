@@ -11,7 +11,6 @@
 				{{ pdt.fin_prdt_nm }}
 			</li>
 			</ul>
-
 		</div>
 		<div class="wrapper2">
 			<h3>최고 금리 상품 조회</h3>
@@ -93,22 +92,16 @@ const goSearch = function () {
 }
 
 onMounted(() => {
-	// 예금정보를 db에 저장 - 인기상품 기능 에시를 위해 추가한 함수. 나중에 지우면 됨
-	axios({
-		method: 'get',
-		url: `${store.API_URL}/api2/deposits/`
-	})
-		.then((res) => {
-			console.log(res.data)
-			products.value = res.data
-			temp_pdts.value = products.value.slice(0, 3)
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-	store.save_deposits()
-	store.save_savings()	
+	// 예금정보를 db에 저장 - 인기상품 기능 예시를 위해 추가한 함수. 나중에 지우면 됨
 	
+	store.save_deposits() // db -> 스토어 
+	store.save_savings()
+	const temp_data = store.depPdtList // 스토어에서 예금 상품 리스트 가져오기
+	console.log('정렬 이전', temp_data)
+	temp_data.sort((a, b) => {
+			b.like_users.length - a.like_users.length
+		})	
+	console.log(temp_data)
 })
 </script>
 

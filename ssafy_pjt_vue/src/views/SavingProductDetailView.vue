@@ -161,7 +161,7 @@ onMounted(() => {
 		.then((res) => {
 			console.log(res)
 			data.value = res.data
-			isLike.value = userStore.user.pk in res.data.like_users
+			isLike.value = res.data.like_users.includes(userStore.user.pk) 
 		})
 		.catch((err) => {
 			console.log(err)
@@ -206,7 +206,7 @@ const goBack = function () {
 	position: relative;
   width: 80%;
   height: max-content;
-  background-color: #60A5FA;
+  background-color: rgb(180, 197, 218);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -215,12 +215,11 @@ const goBack = function () {
   color: white;
   padding: 1rem;
   margin: 0 auto;
+  margin-top: 10%;
   animation: move 0.1s ease-in;
 }
 .modal-content button {
 	position: fixed;
-	top: 0;
-	right: 0;
 	
 }
 .container {
@@ -235,7 +234,7 @@ const goBack = function () {
 }
 .card button {
 	position: absolute;
-	top: 0;
+	
 	right: 0;
 }
 .card p{
@@ -265,8 +264,7 @@ li > p {
 table {
   border-collapse: collapse;
   width: 70%;
-  overflow: scroll;
-  overflow-x: scroll;
+  font-size: 20px;
 }
 
 /* Style the table header */
@@ -278,12 +276,17 @@ th, td {
 
 /* Add background color to alternating rows for better readability */
 tr:nth-child(even) {
-  background-color: aliceblue;
+  background-color: rgb(15, 50, 80);
+}
+tr:nth-child(odd) {
+  background-color: rgb(12, 84, 148);
 }
 
 /* Style the table header */
 th {
   color: white;
+  background-color: rgb(2, 17, 29);
+
 }
 
 </style>

@@ -13,6 +13,8 @@ import ReviewUpdateView from '@/views/ReviewUpdateView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import ProfileUpdateView from '@/views/ProfileUpdateView.vue'
+import PasswordChangeView from '@/views/PasswordChangeView.vue'
 
 import PortfolioCreateView from '@/views/PortfolioCreateView.vue'
 import PortfolioDetailView from '@/views/PortfolioDetailView.vue'
@@ -91,6 +93,16 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/profileupdate',
+      name: 'profileupdate',
+      component: ProfileUpdateView
+    },
+    {
+      path: '/passwordchange',
+      name: 'passwordchange',
+      component: PasswordChangeView
     },
     {
       path: '/portfoliocreate',

@@ -2,28 +2,52 @@
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span></RouterLink> 
-        <RouterLink :to="{ name: 'exchange' }"><p>환전</p></RouterLink>
-        <RouterLink :to="{ name: 'map' }">은행찾기</RouterLink>
-        <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
-
-        <RouterLink :to="{ name: 'articles'}">Articles</RouterLink>
-        <RouterLink :to="{ name: 'reviews'}">Reviews</RouterLink>
-        <RouterLink 
-          v-if="!userStore.isLogin" 
-          :to="{ name: 'login' }">Login</RouterLink>
-        <RouterLink 
-          v-if="!userStore.isLogin" 
-          :to="{ name: 'signup' }">SignUp</RouterLink>
-        <a @click="userStore.logOut" v-if="userStore.isLogin">Logout</a>
+        <ul>
+          <li @mouseover="openDropdown">
+            <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span></RouterLink> 
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'exchange' }"><p>환전</p></RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'map' }">은행찾기</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
+          </li>
+          <li>
+            <a href="">게시판</a>
+            <ul>
+              <RouterLink :to="{ name: 'articles'}">Articles</RouterLink>
+              <RouterLink :to="{ name: 'reviews'}">Reviews</RouterLink>
+            </ul>
+          </li>
+          <li>
+            <a href="">회원</a>
+            <ul>
+              <RouterLink 
+                v-if="!userStore.isLogin" 
+                :to="{ name: 'login' }">Login</RouterLink>
+              <RouterLink   
+                v-if="!userStore.isLogin" 
+                :to="{ name: 'signup' }">SignUp</RouterLink>
+            </ul>
+          </li>
+          <li>
+            <a @click="userStore.logOut" v-if="userStore.isLogin">Logout</a>
+          </li>
+          <li>
+            <RouterLink 
+              v-if="userStore.isLogin"
+              :to="{ name: 'profile' }">Profile
+            </RouterLink>
+          </li>
+        </ul>
       </nav>
 
       <span v-if="userStore.user.is_staff">관리자</span>
-      <span v-if="userStore.isLogin">{{ userStore.user.pk }}님 안녕하세요!</span>
-      <RouterLink 
-        v-if="userStore.isLogin"
-      :to="{ name: 'profile' }">Profile</RouterLink>
-
+      <span v-if="userStore.isLogin">{{ userStore.user.username }}님 안녕하세요!</span>
+      
     </div>
   </header>
   <RouterView />
@@ -66,6 +90,10 @@ nav {
   line-height: 1.5;
   font-size: 1rem;
   background-color: transparent;
+}
+nav ul {
+  display: flex;
+  list-style: none;
 }
 
 span {

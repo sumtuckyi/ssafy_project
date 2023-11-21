@@ -100,8 +100,45 @@ export const useUserStore = defineStore('user', () => {
       }
     })
       .then((res) => {
-        console.log(res.data)
         user.value = res.data
+      })
+      .catch(err => console.log(err))
+  }
+
+  const passwordChange = function (payload) {
+    const { old_password, new_password1, new_password2 } = payload
+    axios({
+      method: 'post',
+      url: `${API_URL}/accounts/password/change/`,
+      data: {
+        old_password, new_password1, new_password2
+      },
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then((res) => {
+        getUser()
+        router.push({ name: 'profile' })
+      })
+      .catch(err => console.log(err))
+  }
+
+  const profileUpdate = function (payload) {
+    const { email, first_name, last_name } = payload
+    axios({
+      method: 'put',
+      url: `${API_URL}/accounts/${user.value.pk}/update/`,
+      data: {
+        email, first_name, last_name
+      },
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then((res) => {
+        getUser()
+        router.push({ name: 'profile' })
       })
       .catch(err => console.log(err))
   }
@@ -171,5 +208,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return { API_URL, token, isLogin, user, signUp, logIn, logOut,
-    typeChange, portfolio, pfExist, getUser, getPortfolio, createPortfolio, updatePortfolio }
+    typeChange, portfolio, pfExist, getUser, getPortfolio, 
+    createPortfolio, updatePortfolio, passwordChange,
+    profileUpdate, }
 }, { persist: true })

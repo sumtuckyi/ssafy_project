@@ -34,7 +34,7 @@ API_KEY = env('API_KEY')
 API_KEY2 = env('API_KEY2')
 API_KEY_NAVER = env('API_KEY3')
 CLIENT_SECRET = env('SECRET')
-EMAIL_PASSWORD = env('EMAIL_PASSWORD')
+# EMAIL_PASSWORD = env('EMAIL_PASSWORD')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -74,12 +74,12 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-EMAIL_HOST = 'smtp.naver.com'
-EMAIL_HOST_USER = 'ckadltmf0224@naver.com'
-EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_HOST = 'smtp.naver.com'
+# EMAIL_HOST_USER = 'ckadltmf0224@naver.com'
+# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 REST_FRAMEWORK = {
     # Authentication
@@ -105,7 +105,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'http://127.0.0.1:5174',
+    'http://localhost:5174'
 ]
 
 ROOT_URLCONF = 'ssafy_pjt_django.urls'
@@ -185,5 +187,6 @@ AUTH_USER_MODEL = 'accounts.User'
 
 REST_AUTH = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
-    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer'
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
+    'OLD_PASSWORD_FIELD_ENABLED': True,
 }

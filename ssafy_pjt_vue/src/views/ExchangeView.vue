@@ -1,10 +1,10 @@
 <template>
 	<div class="container">
-		<h1>환율계산기</h1>
+		<h2>환율계산기</h2>
+		<p class="title">어떤 통화로 바꾸실 건가요?</p>
 		<form>
-			<p class="title">어떤 통화로 바꾸실 건가요?</p>
 			<select id="cat-select" v-model="currency" required>
-				<option value="" disabled>please choose an option</option>
+				<option value="" disabled>환전을 원하는 통화를 선택하세요.</option>
 				<option v-for="(value, key) in store.cur_unit_code" :value="key">{{ value }}</option>
 			</select>
 			<input type="text" id="title" v-model="from" @input="changeValue('from')">
@@ -12,7 +12,9 @@
 			<span class="material-symbols-outlined">sync_alt</span>
 			<input name="content" v-model="to" @input="changeValue('to')">
 		</form>
-		<canvas ref="chartCanvas"></canvas>
+		<div class="canvas">
+			<canvas ref="chartCanvas"></canvas>
+		</div>
 	</div>
 </template>
 
@@ -122,9 +124,12 @@ select {
 	display: block;
 }
 .title {
-	display: block;
-	margin: 0.5rem;
+	margin-top: 2rem;
 	font-size: 2rem;
+}
+.canvas {
+	height: 400px;
+	width: 700px;
 }
 
 /* @import url('https://fonts.googleapis.com/icon?family=Material+Icons'); */

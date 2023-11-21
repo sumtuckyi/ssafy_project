@@ -6,16 +6,29 @@
     </RouterLink>
     <hr>
     <label for="search">검색: </label>
-    <input type="text" id="search" v-model="search">
+    <input type="text" id="search" v-model="search" @keyup.enter="searchArticles">
     <button @click="searchArticles">검색하기</button>
-    <div v-for="article in articles.slice((currentPage - 1) * perPage, currentPage * perPage)">
-      <p>{{ article.id }}</p>
-      <RouterLink 
-        :to="{ name: 'articledetail', params: { id: article.id } }"
-      >
-        {{ article.title }}
-      </RouterLink>
-      <hr>
+    <div v-if="onSearch">
+      <div v-for="article in articles.slice((currentPage - 1) * perPage, currentPage * perPage)">
+        <p>{{ article.username }}</p>
+        <RouterLink 
+          :to="{ name: 'articledetail', params: { id: article.id } }"
+        >
+          {{ article.title }}
+        </RouterLink>
+        <hr>
+      </div>
+    </div>
+    <div v-else>
+      <div v-for="article in articleStore.articles.slice((currentPage - 1) * perPage, currentPage * perPage)">
+        <p>{{ article.username }}</p>
+        <RouterLink 
+          :to="{ name: 'articledetail', params: { id: article.id } }"
+        >
+          {{ article.title }}
+        </RouterLink>
+        <hr>
+      </div>
     </div>
     <ul class="pagination">
       <li v-for="page in pages" @click="changePage(page)"><button>{{ page }}</button></li>
@@ -33,10 +46,15 @@ const articleStore = useArticleStore()
 const articles = ref([])
 const search = ref('')
 const pages = computed(() => {
-  return Array.from({length: Math.ceil(articles.value.length / perPage.value)}, (v, i) => i + 1)
+  if (onSearch.value) {
+    return Array.from({length: Math.ceil(articles.value.length / perPage.value)}, (v, i) => i + 1)
+  } else {
+    return Array.from({length: Math.ceil(articleStore.articles.length / perPage.value)}, (v, i) => i + 1)
+  }
 })
 const perPage = ref(10)
 const currentPage = ref(1)
+const onSearch = ref(false)
 
 const changePage = (page) => {
   currentPage.value = page
@@ -44,7 +62,6 @@ const changePage = (page) => {
 
 onMounted(() => {
   articleStore.getArticles()
-  articles.value = articleStore.articles
 })
 
 const searchArticles = () => {
@@ -53,6 +70,7 @@ const searchArticles = () => {
     article.title.includes(search.value) || article.content.includes(search.value)
   )
   articles.value = searchResult
+  onSearch.value = true
 }
 </script>
 

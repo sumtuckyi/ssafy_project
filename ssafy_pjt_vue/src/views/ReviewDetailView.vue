@@ -1,7 +1,7 @@
 <template>
   <div v-if="!(review === null)">
     <h1>{{ review.id }}번 게시글</h1>
-    <p>{{ review.user }}</p>
+    <p>{{ review.username }}</p>
     <p>{{ review.title }}</p>
     <p>{{ review.content }}</p>
     <p>{{ review.created_at }}</p>
@@ -15,7 +15,7 @@
     </div>
     <div v-for="comment in review.reviewcomment_set">
       <div v-if="comment.id !== commentEdit">
-        <p>{{ comment.user }}</p>
+        <p>{{ comment.username }}</p>
         <p>{{ comment.content }}</p>
         <button 
           v-if="userStore.user.pk === comment.user"

@@ -135,7 +135,7 @@ onMounted(() => {
 		.then((res) => {
 			console.log(res)
 			data.value = res.data
-			isLike.value = userStore.user.pk in res.data.like_users
+			isLike.value = res.data.like_users.includes(userStore.user.pk)
 		})
 		.catch((err) => {
 			console.log(err)

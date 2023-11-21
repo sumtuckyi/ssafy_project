@@ -1,10 +1,24 @@
 <template>
-	<div>
-		<p><strong>{{ keyword }}</strong>(으)로 검색한 상품입니다.</p>
-		<p v-if="!isDepEmpty">예금상품</p>
-		<p v-for="pdt in pdtList_d" :key="pdt.id">{{ pdt }}</p>
-		<p v-if="!isSavEmpty">적금상품</p>
-		<p v-for="pdt in pdtList_s" :key="pdt.id">{{ pdt }}</p>
+	<div class="container">
+		<h3><strong>{{ keyword }}</strong>(으)로 검색한 상품입니다.</h3>
+		<div class="wrapper">
+			<p v-if="!isDepEmpty"><h4>예금상품</h4></p>
+			<div v-for="pdt in pdtList_d" :key="pdt.id" class="card_d">
+				<p>{{ pdt.kor_co_nm }}</p>
+				<p>{{ pdt.fin_prdt_nm }}</p>
+				<p>{{ pdt.join_way }}</p>
+				<p></p>
+			</div>
+		</div>
+		<div class="wrapper">
+			<p v-if="!isSavEmpty"><h4>적금상품</h4></p>
+			<div v-for="pdt in pdtList_s" :key="pdt.id" class="card_s">
+				<p>{{ pdt.kor_co_nm }}</p>
+				<p>{{ pdt.fin_prdt_nm }}</p>
+				<p>{{ pdt.join_way }}</p>
+			</div>
+			
+		</div>
 		<p v-if="noResult">검색 결과가 없습니다.</p>
 	</div>
 </template>
@@ -69,5 +83,29 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.container {
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	width: 75%;
+	height: auto;
+	margin-top: 2rem;
+}
+.wrapper {
+	margin-top: 1rem;
+}
+.card_d {
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	padding: 1rem;
+	align-items: center;
+}
+.card_s {
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	padding: 1rem;
+}
+h3 {
+	font-weight: 350;
+}
 </style>
