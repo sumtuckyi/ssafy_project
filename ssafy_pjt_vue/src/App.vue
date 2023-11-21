@@ -3,7 +3,7 @@
     <div class="wrapper">
       <nav>
         <ul>
-          <li @mouseover="openDropdown">
+          <li>
             <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span></RouterLink> 
           </li>
           <li>
@@ -15,16 +15,19 @@
           <li>
             <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
           </li>
-          <li>
-            <a href="">게시판</a>
-            <ul>
+          <li @mouseover="openDropdown('article')" @mouseleave="closeDropdown('article')">
+            <a>게시판</a>
+            <ul v-show="isArticleDropdownOpen">
               <RouterLink :to="{ name: 'articles'}">Articles</RouterLink>
               <RouterLink :to="{ name: 'reviews'}">Reviews</RouterLink>
             </ul>
           </li>
-          <li>
+          <li 
+            @mouseover="openDropdown" @mouseleave="closeDropdown"
+            v-if="!userStore.isLogin"
+          >
             <a href="">회원</a>
-            <ul>
+            <ul v-show="isUserDropdownOpen">
               <RouterLink 
                 v-if="!userStore.isLogin" 
                 :to="{ name: 'login' }">Login</RouterLink>
@@ -62,6 +65,25 @@ import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore()
 
+const isArticleDropdownOpen = ref(false)
+const isUserDropdownOpen = ref(false)
+const openDropdown = (text) => {
+    if (text === 'article') {
+      isArticleDropdownOpen.value = true
+    } else {
+      isUserDropdownOpen.value = true
+    }
+}
+const closeDropdown = (text) => {
+  if (text === 'article') {
+    isArticleDropdownOpen.value = false
+  } else {
+    isUserDropdownOpen.value = false
+  }
+}
+
+
+
 </script>
 
 
@@ -86,16 +108,21 @@ body {
 nav {
   width: 100%;
   color: #00B6FF;
-  text-align: center;
+  /* text-align: center; */
   line-height: 1.5;
   font-size: 1rem;
-  background-color: transparent;
+  background-color: white;
 }
 nav ul {
   display: flex;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
+nav li {
+  margin-right: 20px;
+  position: relative;
+}
 span {
   font-size: 1.5rem;
   font-weight: 600;
@@ -104,13 +131,21 @@ span {
 
 
 nav a {
-  display: inline-block;
+  display: block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
   text-decoration: none;
   color: #00B6FF;
 }
+nav ul ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
 
+}
+nav ul li:hover > ul {
+  display: inherit;
+}
 nav a:first-of-type {
   border: 0;
 }

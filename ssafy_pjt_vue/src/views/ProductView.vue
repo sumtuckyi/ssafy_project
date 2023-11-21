@@ -8,7 +8,7 @@
 					v-for="pdt in temp_pdts"
 					:key="pdt.id"
 				>
-				{{ pdt.fin_prdt_nm }}
+				<p>{{ pdt.fin_prdt_nm }}</p>
 			</li>
 			</ul>
 		</div>
@@ -98,10 +98,11 @@ onMounted(() => {
 	store.save_savings()
 	const temp_data = store.depPdtList // 스토어에서 예금 상품 리스트 가져오기
 	console.log('정렬 이전', temp_data)
-	temp_data.sort((a, b) => {
+	temp_data.sort((a, b) => 
 			b.like_users.length - a.like_users.length
-		})	
-	console.log(temp_data)
+		)	
+	console.log(temp_data[4].like_users.length)
+	temp_pdts.value = temp_data.slice(0, 3)
 })
 </script>
 
