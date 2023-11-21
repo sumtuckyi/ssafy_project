@@ -315,7 +315,8 @@ function displayPagination(pagination) {
       el.href = "#";
       el.innerHTML = i;
       el.style.marginRight = "10px";
-      el.style.color = "#F596EA"
+      // el.style.color = "#F596EA"
+      el.style.color = '000000'
       el.style.fontSize = "1rem"
       el.style.fontWeight = "700"
       el.style.textDecoration = "none"
@@ -353,7 +354,7 @@ function displayMarker(place) {
 <style scoped>
 .container {
   
-  background-image: url('../../public/Grad_17.png'); /* Replace with the path to your PNG file */
+  background-image: url('/public/Grad_17.png'); /* Replace with the path to your PNG file */
   background-size: cover; /* Adjust the background size */
   background-repeat: no-repeat;
   height: 100vh; /* Ensure the container takes the full viewport height */
@@ -470,7 +471,8 @@ button:-webkit-details-marker {
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 100%;
+  /* height: 100%; */
+  height: 54.7vh;
   float: left;
   border-radius: 5px;
 }

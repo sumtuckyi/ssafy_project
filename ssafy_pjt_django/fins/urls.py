@@ -11,4 +11,9 @@ urlpatterns = [
     path('deposits/<pdt_pk>/', views.deposit_detail),
     path('savings/<pdt_pk>/', views.saving_detail),
     path('best/<type>/<per>/', views.filter_best),
+    path('send-email/', views.send_email),
+    path('deposits/<pdt_pk>/like/', views.like_deposits),
+    path('deposits/options/<opt_pk>/join/', views.join_deposits),
+    path('savings/<pdt_pk>/like/', views.like_savings),
+    path('savings/options/<opt_pk>/join/', views.join_savings),
 ]

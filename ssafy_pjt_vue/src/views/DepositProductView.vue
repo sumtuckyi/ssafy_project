@@ -10,7 +10,6 @@
 			class="box"
 			@click="goDetail(product.fin_prdt_cd)"
 		>
-			<button @click="showOpts(product.fin_prdt_cd)">options</button>
 			<div @click="goDetail(product.fin_prdt_cd)">
 				<p>은행 : {{ product.kor_co_nm }}</p>
 				<p>상품 : {{ product.fin_prdt_nm }}</p>

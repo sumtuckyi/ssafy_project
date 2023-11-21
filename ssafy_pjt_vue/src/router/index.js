@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from '../views/HomeView.vue'
-
 import ArticleView from '@/views/ArticleView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import ArticleCreateView from '@/views/ArticleCreateView.vue'
@@ -36,8 +34,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'main',
+      component: MainPage
     },
     {
       path: '/articles',
@@ -110,11 +108,6 @@ const router = createRouter({
       component: PortfolioUpdateView
     },
     {
-      path: '/',
-      name: 'main',
-      component: MainPage
-    },
-    {
       path: '/map',
       name: 'map',
       component: MapView
@@ -178,7 +171,7 @@ router.beforeEach((to, from) => {
   }
   if ((to.name === 'signup' || to.name === 'login') && (store.isLogin)) {
     window.alert('이미 로그인 했습니다.')
-    return { name: 'home' }
+    return { name: 'main' }
   }
   if (to.name === 'reviewcreate' && !store.isLogin) {
     window.alert('로그인이 필요합니다.')

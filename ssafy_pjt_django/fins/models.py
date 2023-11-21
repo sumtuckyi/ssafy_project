@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+
 
 # Create your models here.
 class DepositProduct(models.Model):
@@ -17,6 +19,9 @@ class DepositProduct(models.Model):
     dcls_strt_day = models.TextField()
     dcls_end_day = models.TextField()
     fin_co_subm_day = models.TextField()
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='like_deposits'
+    )
 
 
 class DepositOption(models.Model):
@@ -29,6 +34,9 @@ class DepositOption(models.Model):
     save_trm = models.TextField()	
     intr_rate = models.FloatField()	
     intr_rate2 = models.FloatField()
+    joined_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='my_deposits'
+    )
 
 
 class SavingProduct(models.Model):
@@ -47,6 +55,9 @@ class SavingProduct(models.Model):
     dcls_strt_day = models.TextField()
     dcls_end_day = models.TextField()
     fin_co_subm_day = models.TextField()
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='like_savings'
+    )
 
 
 class SavingOption(models.Model):
@@ -61,3 +72,6 @@ class SavingOption(models.Model):
     save_trm = models.TextField()
     intr_rate = models.FloatField()
     intr_rate2 = models.FloatField()
+    joined_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='my_savings'
+    )

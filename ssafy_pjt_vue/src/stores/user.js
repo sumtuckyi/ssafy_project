@@ -46,7 +46,7 @@ export const useUserStore = defineStore('user', () => {
     })
       .then((res) => {
         logIn({ username, password: password1 })
-        router.push({ name: 'home' })
+        router.push({ name: 'main' })
       })
       .catch((err) => {
         console.log(err)
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user', () => {
         getUser()
         getPortfolio()
 
-        router.push({ name: 'home' })
+        router.push({ name: 'main' })
       })
       .catch((err) => {
         console.log(err)
@@ -84,7 +84,7 @@ export const useUserStore = defineStore('user', () => {
         token.value = null
         user.value = { pk: ''}
         portfolio.value = null
-        router.push({ name: 'home' })
+        router.push({ name: 'main' })
       })
       .catch((err) => {
         console.log(err)

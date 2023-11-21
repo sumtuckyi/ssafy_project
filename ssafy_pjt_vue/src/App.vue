@@ -7,9 +7,8 @@
         <RouterLink :to="{ name: 'map' }">은행찾기</RouterLink>
         <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
 
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/articles">Articles</RouterLink>
-        <RouterLink to="/reviews">Reviews</RouterLink>
+        <RouterLink :to="{ name: 'articles'}">Articles</RouterLink>
+        <RouterLink :to="{ name: 'reviews'}">Reviews</RouterLink>
         <RouterLink 
           v-if="!userStore.isLogin" 
           :to="{ name: 'login' }">Login</RouterLink>
@@ -19,8 +18,8 @@
         <a @click="userStore.logOut" v-if="userStore.isLogin">Logout</a>
       </nav>
 
-      <p v-if="userStore.user.is_staff">관리자</p>
-      <p v-if="userStore.isLogin">{{ userStore.user.pk }}님 안녕하세요!</p>
+      <span v-if="userStore.user.is_staff">관리자</span>
+      <span v-if="userStore.isLogin">{{ userStore.user.pk }}님 안녕하세요!</span>
       <RouterLink 
         v-if="userStore.isLogin"
       :to="{ name: 'profile' }">Profile</RouterLink>

@@ -32,7 +32,7 @@ const rate = ref('')
 
 
 watch(currency, (item) => {
-	console.log(typeof item)
+	// console.log(typeof item)
 	// 환율 가져오기
 	axios({
       method: 'get',
@@ -50,7 +50,7 @@ watch(currency, (item) => {
 							rate.value = data.value[i].bkpr
 						}
 						console.log(rate.value)
-						to.value = (from.value / rate.value).toFixed()
+						// to.value = (from.value / rate.value).toFixed()
 						return
 					} 
 				}

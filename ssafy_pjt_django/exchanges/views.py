@@ -18,7 +18,7 @@ def getRate(request):
 
     api_key = settings.API_KEY
     data_type = 'AP01'
-    URL = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={api_key}&searchdate={formatted_date}&data={data_type}'
+    URL = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={api_key}&searchdate=20231120&data={data_type}'
 
     
    

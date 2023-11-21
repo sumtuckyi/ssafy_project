@@ -5,6 +5,10 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core import mail
+# permission Decorators
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import DepositProduct, DepositOption, SavingProduct, SavingOption
 from .serializers import (DepositProductsSerializer, DepositOptsSerializer, SavingProductsSerializer, SavingOptsSerializer,
@@ -263,3 +267,63 @@ def filter_best(request, type, per):
             return Response(serializer.data)
             # serializer = SavingOptsSerializer(top_four_rows, many=True)
             # return Response(serializer.data)
+
+
+def send_email(request):
+    # message = ('제목', 
+    #            '내용', 
+    #            'ckadltmf0224@naver.com', 
+    #            ['ckadltmf0224@naver.com'])
+    # mail.send_mass_mail((message), fail_silently=False)
+    mail.send_mail("제목",
+                   "내용",
+                   "ckadltmf0224@naver.com",
+                   ["ckadltmf0224@naver.com"],
+                   fail_silently=False)
+    return JsonResponse({'message': 'YES'})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_deposits(request, pdt_pk):
+    product = DepositProduct.objects.get(fin_prdt_cd=pdt_pk)
+    if request.user in product.like_users.all():
+        product.like_users.remove(request.user)
+    else:
+        product.like_users.add(request.user)
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def join_deposits(request, opt_pk):
+    option = DepositOption.objects.get(pk=opt_pk)
+    if request.user not in option.joined_users.all():
+        option.joined_users.add(request.user)
+        return JsonResponse({'message': 'join'})
+    else:
+        option.joined_users.remove(request.user)
+        return JsonResponse({'message': 'already'})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_savings(request, pdt_pk):
+    product = SavingProduct.objects.get(fin_prdt_cd=pdt_pk)
+    if request.user in product.like_users.all():
+        product.like_users.remove(request.user)
+    else:
+        product.like_users.add(request.user)
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def join_savings(request, opt_pk):
+    option = SavingOption.objects.get(pk=opt_pk)
+    if request.user not in option.joined_users.all():
+        option.joined_users.add(request.user)
+        return JsonResponse({'message': 'join'})
+    else:
+        option.joined_users.remove(request.user)
+        return JsonResponse({'message': 'already'})
