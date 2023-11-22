@@ -20,7 +20,10 @@
 				<li v-for="opt in opts">
 					<p>금리 유형 : {{ opt.intr_rate_type_nm }}</p>
 					<p>저축기간 : {{ opt.save_trm }}개월</p>
-					<p>최고우대금리 : {{ opt.intr_rate2 }}</p>
+					<p v-if="onChange && opt.id === onChangePk">최고우대금리 : <input type="number" v-model="intr_rate2" step="0.01"></p>
+					<p v-else>최고우대금리 : {{ opt.intr_rate2 }}</p>
+					<button v-if="userStore.user.is_staff && !onChange" @click="letsChange(opt)">금리 수정</button>
+					<button v-if="onChange && opt.id === onChangePk" @click="changeRate()">수정하기</button>
 					<button @click="joinDeposit(opt.id)">가입하기</button>
 				</li> 
 			</ul>
@@ -66,8 +69,8 @@ const get_dep_opts = function (fin_prdt_cd) {
     })
       .then((res) => {
         console.log(res)
-		opts.value = res.data
-		console.log(opts.value)
+				opts.value = res.data
+				console.log(opts.value)
       })
       .catch((err) => {
         console.log(err)
@@ -150,6 +153,24 @@ const likeProduct = function (fin_prdt_cd) {
 
 const joinDeposit = function (opt_pk) {
 	store.join_deposits(opt_pk)
+}
+
+const onChange = ref(false)
+const onChangePk = ref(null)
+const intr_rate2 = ref(null)
+
+const letsChange = function (opt) {
+	onChange.value = !onChange.value
+	onChangePk.value = opt.id
+	intr_rate2.value = opt.intr_rate2
+}
+
+const changeRate = function () {
+	onChange.value = !onChange.value
+	onChangePk.value = null
+	intr_rate2.value = null
+	showOpts(route.params.id)
+	window.alert('변경이 완료되었습니다.')
 }
 
 const goBack = function () {

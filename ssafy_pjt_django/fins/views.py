@@ -327,3 +327,13 @@ def join_savings(request, opt_pk):
     else:
         option.joined_users.remove(request.user)
         return JsonResponse({'message': 'already'})
+
+
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def change_rate(request, opt_pk):
+    option = DepositOption.objects.get(pk=opt_pk)
+    serializer = DepositOptsSerializer(option, data=request.data, partial=True)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        product = DepositProduct.objects.get(fin_prdt_cd=option.fin_prdt_cd)

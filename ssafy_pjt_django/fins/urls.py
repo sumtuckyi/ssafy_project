@@ -16,4 +16,5 @@ urlpatterns = [
     path('deposits/options/<opt_pk>/join/', views.join_deposits),
     path('savings/<pdt_pk>/like/', views.like_savings),
     path('savings/options/<opt_pk>/join/', views.join_savings),
+    path('deposits/options/<opt_pk>/change/', views.change_rate)
 ]

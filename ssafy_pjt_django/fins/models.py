@@ -20,7 +20,7 @@ class DepositProduct(models.Model):
     dcls_end_day = models.TextField()
     fin_co_subm_day = models.TextField()
     like_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='like_deposits'
+        settings.AUTH_USER_MODEL, related_name='like_deposits', blank=True
     )
 
 
@@ -35,7 +35,7 @@ class DepositOption(models.Model):
     intr_rate = models.FloatField()	
     intr_rate2 = models.FloatField()
     joined_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='my_deposits'
+        settings.AUTH_USER_MODEL, related_name='my_deposits', blank=True
     )
 
 
@@ -56,7 +56,7 @@ class SavingProduct(models.Model):
     dcls_end_day = models.TextField()
     fin_co_subm_day = models.TextField()
     like_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='like_savings'
+        settings.AUTH_USER_MODEL, related_name='like_savings', blank=True
     )
 
 
@@ -73,5 +73,5 @@ class SavingOption(models.Model):
     intr_rate = models.FloatField()
     intr_rate2 = models.FloatField()
     joined_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='my_savings'
+        settings.AUTH_USER_MODEL, related_name='my_savings', blank=True
     )
