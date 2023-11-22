@@ -49,7 +49,8 @@ export const useUserStore = defineStore('user', () => {
         router.push({ name: 'main' })
       })
       .catch((err) => {
-        console.log(err)
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert(`${firstKey}: ${err.response.data[firstKey]}`)
       })
   }
 
@@ -71,7 +72,8 @@ export const useUserStore = defineStore('user', () => {
         router.push({ name: 'main' })
       })
       .catch((err) => {
-        console.log(err)
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert('아이디 혹은 비밀번호를 확인해주세요.')
       })
   }
 
@@ -121,7 +123,10 @@ export const useUserStore = defineStore('user', () => {
         getUser()
         router.push({ name: 'profile' })
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert(`${firstKey}: ${err.response.data[firstKey]}`)
+      })
   }
 
   const profileUpdate = function (payload) {
@@ -140,7 +145,10 @@ export const useUserStore = defineStore('user', () => {
         getUser()
         router.push({ name: 'profile' })
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert(`${firstKey}: ${err.response.data[firstKey]}`)
+      })
   }
 
   const getPortfolio = function () {
@@ -178,7 +186,8 @@ export const useUserStore = defineStore('user', () => {
         router.push({ name: 'profile' })
       })
       .catch((err) => {
-        console.log(err)
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert(`${firstKey}: ${err.response.data[firstKey]}`)
       })
   }
 
@@ -203,7 +212,8 @@ export const useUserStore = defineStore('user', () => {
         router.push({ name: 'portfoliodetail' })
       })
       .catch((err) => {
-        console.log(err)
+        const firstKey = Object.keys(err.response.data)[0]
+        window.alert(`${firstKey}: ${err.response.data[firstKey]}`)
       })
   }
 

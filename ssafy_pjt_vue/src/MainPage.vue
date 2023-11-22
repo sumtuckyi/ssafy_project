@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <h1>main page</h1>
         <div id="carousel-container">
             <transition name="fade" mode="out-in">
@@ -111,6 +111,16 @@ startCarousel();
 body {
     height: 100vh;
 }
+.container {
+	background-image: url('/public/Grad_15.png'); /* Replace with the path to your PNG file */
+  background-size: cover; /* Adjust the background size */
+  background-repeat: no-repeat;
+  height: 100vh; /* Ensure the container takes the full viewport height */
+  margin: 0;
+  padding: 0;
+}
+
+
 #carousel-container {
     border: 1px gray solid;
     width: 80%;
@@ -154,5 +164,13 @@ body {
 }
 li {
     list-style: none;
+}
+@keyframes rotateBackground {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

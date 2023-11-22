@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<div class="container">
+	<div class="container">
+		<div>
 			<h1>예금 상품 조회</h1>
-			<router-link :to="{ name: 'saving' }"><button>적금 상품 조회</button></router-link>
 		</div>
 		<div class="buttons">
+			<router-link :to="{ name: 'saving' }"><button id="saving-btn">적금 상품 조회</button></router-link>
 			<button @click="sortByCustomers">인기순</button>
 			<button @click="sortByRate">금리순</button>
 		</div>
@@ -14,23 +14,34 @@
 			class="box"
 			@click="goDetail(product.fin_prdt_cd)"
 		>
-			<div @click="goDetail(product.fin_prdt_cd)">
-				<p>은행 : {{ product.kor_co_nm }}</p>
-				<p>상품 : {{ product.fin_prdt_nm }}</p>
-				<p>가입방식 : {{ product.join_way }}</p>
+			<div @click="goDetail(product.fin_prdt_cd)" class="sub-box">
+				<div class="box-info">
+					<p class="join-way">
+						<span v-for="(item, index) in product.join_way.replace(/\u0022/g, '').split(',')" :key="index">
+							<span>{{ item + ' ' }}</span>
+						</span>
+					</p>
+					<p>{{ product.kor_co_nm }}</p>
+					<p class="pdt-name">{{ product.fin_prdt_nm }}</p>
+				</div>
+				<div class="box-rate">
+					<p>{{ product.min_option }}</p>
+					<p v-if="product.min_option !== product.max_option">~{{ product.max_option }}</p>
+				</div>
 			</div>
 		</div>
-		<div>
+		<div class="pagination">
 			<ul>
 				<li 
 					v-for="page in pages"
 					@click="changePage(page)"
 				>
-					<button>{{ page }}</button>
+					<button id="page">{{ page }}</button>
 				</li>
 			</ul>
 		</div>
 	</div>
+	<Sidebar />
 </template>
 
 <script setup>
@@ -38,6 +49,7 @@ import { ref, onMounted, computed, watchEffect } from 'vue'
 import { useCounterStore } from '../stores/counter'; 
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+import Sidebar from '../components/Sidebar.vue';
 const store = useCounterStore()
 const router = useRouter()
 
@@ -60,12 +72,13 @@ const changePage = (page) => {
 const sortedArr_rate = ref([])
 watchEffect(() => {
 	sortedArr_rate.value = products.value.slice().sort((a, b) => {
-		const fa = a.intr_rate2
-		const fb = b.intr_rate2
+		const fa = a.max_option
+		const fb = b.max_option
+
 		if (fa < fb) {
-			return -1
-		} if ( fa > fb) {
 			return 1
+		} if ( fa > fb) {
+			return -1
 		} else {
 			return 0
 		}
@@ -93,9 +106,7 @@ const sortByCustomers = function () {
 	products.value = sortedArr_customer.value
 }
 
-// const showOpts = function (fin_prdt_cd) {
-// 	store.get_dep_opts(fin_prdt_cd)
-// }
+
 onMounted(() => {
 	store.get_dep()
 	axios({
@@ -114,20 +125,111 @@ onMounted(() => {
 
 <style scoped>
 .container {
-	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 .box {
+	display: flex;
 	position: relative;
+	width: 60%;
 	margin: 0.5rem;
-	padding: 1rem;
+	padding: 2rem;
+	border-radius: 5px;
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
-.box button {
-	border: none;
-	position: absolute;
-	right: 0;
-	top: 0;
-	background-color: transparent;
+.box-info p {
+	padding: 0.5rem;
+}
+.box-info p.join-way span:nth-child(even) {
+	color: rgb(30, 30, 133);
+}
+#app > div > div > div > div.box-info > p.pdt-name {
+	font-size: 2rem;
+}
+.buttons {
+	margin-top: 1rem;
+	width: 60%;
+	display: flex;
+	justify-content: end;
+}
+.buttons button {
+	margin: 0.1rem;
+}
+button {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  text-align: center;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+button:-webkit-details-marker {
+  display: none;
+}
+#page {
+	color: black;
+	width: 2rem;
+	height: 2rem;
+	text-align: center;
+}
+.pagination {
+	margin: 1rem;
+	text-align: center;
+}
+.sub-box {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+}
+.join-way {
+	color: cadetblue;
+	font-size: 15px !important;
 }
 ul {
 	display: flex;
@@ -135,9 +237,5 @@ ul {
 	justify-content: center;
 	align-items: center;
 }
-ul button {
-	width: 1rem;
-	height: 1rem;
-	text-align: center;
-}
+
 </style>

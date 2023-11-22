@@ -1,41 +1,41 @@
 <template>
   <div>
     <h1>Portfoli Update</h1>
-    <form @submit.prevent="updatePortfolio">
-      <label for="job">직업: </label>
-      <select name="jobs" id="job" v-model.trim="job" required>
-        <option disabled value="">옵션을 선택해주세요.</option>
-        <option value="직장인">직장인</option>
-        <option value="프리랜서">프리랜서</option>
-        <option value="주부">주부</option>
-        <option value="학생">학생</option>
-        <option value="무직">무직</option>
-      </select>
-      <br>
-      <label for="income">수입: </label>
-      <input type="test" v-model.trim="income" id="income">
-      <br>
-      <label for="age">나이: </label>
-      <input type="test" v-model.trim="age" id="age">
-      <br>
-      <label for="prefferedBank">선호 은행: </label>
-      <select name="banks" id="prefferedBank" v-model.trim="prefferedBank" required>
-        <option disabled value="">옵션을 선택해주세요.</option>
-        <option value="국민은행">국민은행</option>
-        <option value="우리은행">우리은행</option>
-        <option value="신한은행">신한은행</option>
-        <option value="하나은행">하나은행</option>
-      </select>
-      <br>
-      <label for="investmentType">저축 성향: </label>
-      <select name="types" id="investmentType" v-model.trim="investmentType" required>
-        <option disabled value="">옵션을 선택해주세요.</option>
-        <option value="알뜰형">알뜰형</option>
-        <option value="도전형">도전형</option>
-        <option value="성실형">성실형</option>
-      </select>
-      <br>
-      <input type="submit" value="수정">
+    <form @submit.prevent="updatePortfolio"  class="form-list">
+      <div class="form-item">
+        <select class="select" name="jobs" id="job" v-model.trim="job" required>
+          <option disabled value="">직업</option>
+          <option value="직장인">직장인</option>
+          <option value="프리랜서">프리랜서</option>
+          <option value="주부">주부</option>
+          <option value="학생">학생</option>
+          <option value="무직">무직</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <input class="input" type="test" v-model.trim="income" id="income" placeholder="수입">
+      </div>
+      <div class="form-item">
+        <input class="input" type="test" v-model.trim="age" id="age" placeholder="나이">
+      </div>
+      <div class="form-item">
+        <select class="select" name="banks" id="prefferedBank" v-model.trim="prefferedBank" required>
+          <option disabled value="">선호 은행</option>
+          <option value="국민은행">국민은행</option>
+          <option value="우리은행">우리은행</option>
+          <option value="신한은행">신한은행</option>
+          <option value="하나은행">하나은행</option>
+        </select>
+      </div>
+      <div class="form-item last">
+        <select class="select" name="types" id="investmentType" v-model.trim="investmentType" required>
+          <option disabled value="">저축 성향</option>
+          <option value="알뜰형">알뜰형</option>
+          <option value="도전형">도전형</option>
+          <option value="성실형">성실형</option>
+        </select>
+      </div>
+      <button @click="submit">수정하기</button>
     </form>
   </div>
 </template>
@@ -67,5 +67,81 @@ const updatePortfolio = function () {
 </script>
 
 <style scoped>
+.form-list {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 100px;
+}
+.form-item {
+  margin-top: -2px;
+}
+.input {
+  width: 50%;
+  height: 50px;
+  font-size: 25px;
+}
+.select {
+  width: 50.1%;
+  height: 50px;
+  font-size: 25px;
+}
+.last {
+  margin-bottom: 30px;
+}
 
+button {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+button:-webkit-details-marker {
+  display: none;
+}
 </style>

@@ -73,7 +73,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 EMAIL_HOST = 'smtp.naver.com'
 EMAIL_HOST_USER = 'ckadltmf0224@naver.com'
 # EMAIL_HOST_PASSWORD = 'TNTXL43XBHK6'

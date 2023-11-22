@@ -298,11 +298,13 @@ def like_deposits(request, pdt_pk):
 @permission_classes([IsAuthenticated])
 def join_deposits(request, opt_pk):
     option = DepositOption.objects.get(pk=opt_pk)
-    if request.user not in option.joined_users.all():
-        option.joined_users.add(request.user)
-        return JsonResponse({'message': 'join'})
+    product = DepositProduct.objects.get(fin_prdt_cd=option.fin_prdt_cd)
+    if request.user not in product.joined_users.all():
+        if request.user not in option.joined_users.all():
+            product.joined_users.add(request.user)
+            option.joined_users.add(request.user)
+            return JsonResponse({'message': 'join'})
     else:
-        option.joined_users.remove(request.user)
         return JsonResponse({'message': 'already'})
 
 
@@ -321,11 +323,13 @@ def like_savings(request, pdt_pk):
 @permission_classes([IsAuthenticated])
 def join_savings(request, opt_pk):
     option = SavingOption.objects.get(pk=opt_pk)
-    if request.user not in option.joined_users.all():
-        option.joined_users.add(request.user)
-        return JsonResponse({'message': 'join'})
+    product = SavingProduct.objects.get(fin_prdt_cd=option.fin_prdt_cd)
+    if request.user not in product.joined_users.all():
+        if request.user not in option.joined_users.all():
+            product.joined_users.add(request.user)
+            option.joined_users.add(request.user)
+            return JsonResponse({'message': 'join'})
     else:
-        option.joined_users.remove(request.user)
         return JsonResponse({'message': 'already'})
 
 
@@ -337,3 +341,6 @@ def change_rate(request, opt_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save()
         product = DepositProduct.objects.get(fin_prdt_cd=option.fin_prdt_cd)
+        to_mail = []
+        # for user_id in option.joined_users:
+        #     user

@@ -22,6 +22,9 @@ class DepositProduct(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='like_deposits', blank=True
     )
+    joined_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='my_deposits', blank=True
+    )
 
 
 class DepositOption(models.Model):
@@ -35,7 +38,7 @@ class DepositOption(models.Model):
     intr_rate = models.FloatField()	
     intr_rate2 = models.FloatField()
     joined_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='my_deposits', blank=True
+        settings.AUTH_USER_MODEL, related_name='my_depositoptions', blank=True
     )
 
 
@@ -58,6 +61,9 @@ class SavingProduct(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='like_savings', blank=True
     )
+    joined_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='my_savings', blank=True
+    )
 
 
 class SavingOption(models.Model):
@@ -73,5 +79,5 @@ class SavingOption(models.Model):
     intr_rate = models.FloatField()
     intr_rate2 = models.FloatField()
     joined_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='my_savings', blank=True
+        settings.AUTH_USER_MODEL, related_name='my_savingoptions', blank=True
     )

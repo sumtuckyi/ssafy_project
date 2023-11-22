@@ -3,8 +3,10 @@
     <div class="wrapper">
       <nav>
         <ul>
-          <li>
-            <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span></RouterLink> 
+          <li id="logo-container">
+            <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span> 
+            </RouterLink>
+            <RouterLink :to="{ name: 'main' }" id="no-pd"><img src="..\public\logo2.png" alt="logo" id="logo"></RouterLink> 
           </li>
           <li>
             <RouterLink :to="{ name: 'exchange' }"><p>환전</p></RouterLink>
@@ -48,9 +50,9 @@
         </ul>
       </nav>
 
-      <span v-if="userStore.user.is_staff">관리자</span>
+      <!-- <span v-if="userStore.user.is_staff">관리자</span>
       <span v-if="userStore.isLogin">{{ userStore.user.username }}님 안녕하세요!</span>
-      
+       -->
     </div>
   </header>
   <RouterView />
@@ -83,7 +85,6 @@ const closeDropdown = (text) => {
 }
 
 
-
 </script>
 
 
@@ -91,8 +92,11 @@ const closeDropdown = (text) => {
 header {
 	background-color: transparent;
   color: #00B6FF;
-  height: 50px;
+  height: 100px;
   padding: 1rem;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
 }
 body {
   height: 100vh;
@@ -100,36 +104,41 @@ body {
 .home {
   font-weight: 600;
   font-size: 1.5rem;
+  padding: 0;
 }
-
 .wrapper {
   height: 100%;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+}
+#no-pd {
+  padding: 0;
 }
 nav {
-  width: 100%;
+  width: 1000px;
   color: #00B6FF;
   /* text-align: center; */
-  line-height: 1.5;
   font-size: 1rem;
   background-color: white;
 }
 nav ul {
-  display: flex;
   list-style: none;
+  display: flex;
   margin: 0;
   padding: 0;
 }
 nav li {
   margin-right: 20px;
   position: relative;
+  font-size: 1.5rem;
+  line-height: 3;
 }
 span {
   font-size: 1.5rem;
   font-weight: 600;
   color: #1B4DFF;
 }
-
-
 nav a {
   display: block;
   padding: 0 1rem;
@@ -141,7 +150,6 @@ nav ul ul {
   position: absolute;
   top: 100%;
   left: 0;
-
 }
 nav ul li:hover > ul {
   display: inherit;
@@ -149,5 +157,17 @@ nav ul li:hover > ul {
 nav a:first-of-type {
   border: 0;
 }
-
+#logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#logo {
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+}
+#app > header > div > nav > ul > li:nth-child(5) > ul > a.router-link-active.router-link-exact-active {
+  margin: 0;
+}
 </style>

@@ -62,6 +62,10 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
 				extra_fields.append('my_deposits')
 		if hasattr(UserModel, 'my_savings'):
 				extra_fields.append('my_savings')
+		if hasattr(UserModel, 'my_depositoptions'):
+				extra_fields.append('my_depositoptions')
+		if hasattr(UserModel, 'my_savingoptions'):
+				extra_fields.append('my_savingoptions')
 		model = UserModel
 		fields = ('pk', *extra_fields)
 		# read_only_fields = ('email',)

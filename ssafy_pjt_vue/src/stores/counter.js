@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import axios from 'axios'
@@ -9,10 +9,10 @@ export const useCounterStore = defineStore('counter', () => {
   const ArrForSavCom = ref([]) //적금 상품 비교
   
   const depPdtList = ref([])
-  const savPdtList = ref([]) 
+  const savPdtList = ref([])
   
   const userStore = useUserStore()
-  
+    
   const cur_unit_code = {
     // 순서 바꿨음(우리은행 참고)
     'USD': '미국 달러',
@@ -132,6 +132,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((res) => {
         console.log(res);
+        userStore.getUser()
       })
       .catch((err) => {
         console.log(err)
@@ -148,6 +149,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((res) => {
         console.log(res);
+        userStore.getUser()
       })
       .catch((err) => {
         console.log(err)
@@ -164,6 +166,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((res) => {
         console.log(res)
+        userStore.getUser()
         if (res.data.message === 'join') {
           window.alert('가입 완료!')
         } else {
@@ -185,6 +188,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((res) => {
         console.log(res)
+        userStore.getUser()
         if (res.data.message === 'join') {
           window.alert('가입 완료!')
         } else {
