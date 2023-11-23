@@ -68,7 +68,7 @@
 								<td>{{ item.spcl_cnd }}</td>
 								<td>{{ max_limit }}</td>
 								<td>{{ item.etc_note }}</td>
-								<button @click="deletePdt(item.id)">삭제</button>
+								<button @click="deletePdt(item.id)">X</button>
 							</tr>
 						</tbody>
 					</table>
@@ -266,6 +266,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+	z-index: 9001;
 }
 .modal-content {
 	position: relative;
