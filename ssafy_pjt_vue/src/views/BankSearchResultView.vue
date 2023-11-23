@@ -1,21 +1,30 @@
 <template>
 	<div class="container">
-		<h3><strong>{{ keyword }}</strong>(으)로 검색한 상품입니다.</h3>
+		<h3><span id="strong">{{ keyword }}</span>(으)로 검색한 상품입니다.</h3>
 		<div class="wrapper">
 			<p v-if="!isDepEmpty"><h4>예금상품</h4></p>
 			<div v-for="pdt in pdtList_d" :key="pdt.id" class="card_d">
-				<p>{{ pdt.kor_co_nm }}</p>
-				<p>{{ pdt.fin_prdt_nm }}</p>
-				<p>{{ pdt.join_way }}</p>
-				<p></p>
+				<div class="box-info">
+					<p class="bank">{{ pdt.kor_co_nm }}</p>
+					<p class="pdt">{{ pdt.fin_prdt_nm }}</p>
+				</div>
+				<div class="box-rate">
+					<p v-if="pdt.min_option === pdt.max_option">0</p>
+					<p v-else>{{ pdt.min_option + '~' + pdt.max_option }}</p>
+				</div>
 			</div>
 		</div>
 		<div class="wrapper">
 			<p v-if="!isSavEmpty"><h4>적금상품</h4></p>
 			<div v-for="pdt in pdtList_s" :key="pdt.id" class="card_s">
-				<p>{{ pdt.kor_co_nm }}</p>
-				<p>{{ pdt.fin_prdt_nm }}</p>
-				<p>{{ pdt.join_way }}</p>
+				<div class="box-info">
+					<p class="bank">{{ pdt.kor_co_nm }}</p>
+					<p class="pdt">{{ pdt.fin_prdt_nm }}</p>
+				</div>
+				<div class="box-rate">
+					<p v-if="pdt.min_option === pdt.max_option">0</p>
+					<p v-else>{{ pdt.min_option + '~' + pdt.max_option }}</p>
+				</div>
 			</div>
 			
 		</div>
@@ -92,20 +101,38 @@ onMounted(() => {
 	width: 75%;
 	height: auto;
 	margin-top: 2rem;
+	margin-bottom: 3rem;
 }
 .wrapper {
 	margin-top: 1rem;
 }
 .card_d {
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-	padding: 1rem;
+	margin: 1rem;
+	padding: 2rem;
 	align-items: center;
+	display: flex;
+	justify-content: space-between;
 }
 .card_s {
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-	padding: 1rem;
+	padding: 2rem;
+	margin: 1rem;
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
 }
 h3 {
 	font-weight: 350;
+}
+#strong {
+	color: #0c3ff7;
+	font-size: 1.5rem;
+}
+.pdt {
+	font-size: 1.5rem;
+}
+.bank {
+	color: #00B6FF;
 }
 </style>

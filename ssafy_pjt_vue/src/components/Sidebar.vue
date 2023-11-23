@@ -39,7 +39,7 @@ body {
   background-color: rgba(244, 244, 244, 0.7);
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   height: 100%;
   overflow-y: auto;
   padding: 20px;

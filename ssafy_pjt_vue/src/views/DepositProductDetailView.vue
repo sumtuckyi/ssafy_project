@@ -6,7 +6,7 @@
 			<div class="box">
 				<p class="join-way">
 					<span v-for="(item, index) in data.join_way?.replace(/\u0022/g, '').split(',')" :key="index">
-						<span>{{ item + ' ' }}</span>
+						<span>{{ item + '  ' }}</span>
 					</span>
 				</p>
 				<h2 class="pdt-name">{{ data.fin_prdt_nm }}</h2>
@@ -48,7 +48,7 @@
 		</div>
 		<div v-if="showModal" class="modal">
 				<div class="modal-content">
-					<button @click="closeModal">닫기</button>
+					<button @click="closeModal" id="close-btn">닫기</button>
 					<h3>상품 비교하기</h3>
 					<p v-if="isEmpty">아직 담은 상품이 없습니다.</p>
 					<table v-else>
@@ -62,7 +62,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="item in Arr" :key="item.id">
+							<tr v-for="item in Arr" :key="item.id" class="card">
 								<td>{{ item.fin_prdt_nm }}</td>
 								<td>{{ item.kor_co_nm }}</td>
 								<td>{{ item.spcl_cnd }}</td>
@@ -263,29 +263,34 @@ h2 {
   top: 0;
   height: 100vh;
   width: 100%;
-	display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 .modal-content {
 	position: relative;
-  width: 100%;
+  width: 80%;
   height: max-content;
-  background-color: #60A5FA;
-  display: flex;
+  background-color: rgb(250, 249, 249);
+	display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: white;
+  color: #000;
   padding: 1rem;
   margin: 0 auto;
+  margin-top: 1rem;
   animation: move 0.1s ease-in;
 }
 .modal-content button {
-	position: fixed;
+	position: absolute;
 }
-
+#close-btn {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
 .card {
 	position: relative;
 	margin: 0;
@@ -295,6 +300,7 @@ h2 {
 .card button {
 	position: absolute;
 	right: 0;
+	top: 0;
 }
 .card p{
 	margin: 0;
@@ -333,23 +339,24 @@ table {
 }
 /* Style the table header */
 th, td {
-  border: 1px solid #dddddd;
+  border: 1px solid rgba(27, 31, 35, 0.15);
   text-align: left;
-  padding: 8px;
+  padding: 10px;
+	/* padding-top: 3rem; */
 }
 
 /* Add background color to alternating rows for better readability */
-tr:nth-child(even) {
-  background-color: rgb(15, 50, 80);
+/* tr:nth-child(even) {
+  background-color: #FFF0DD;
 }
 tr:nth-child(odd) {
-  background-color: rgb(12, 84, 148);
-}
+  background-color: #FFCF96;
+} */
 
 /* Style the table header */
 th {
   color: white;
-  background-color: rgb(2, 17, 29);
+  background-color: #FBAF5E;
 
 }
 button {
@@ -366,6 +373,7 @@ button {
   font-weight: 500;
   line-height: 20px;
   list-style: none;
+	margin-right: 1rem;
   padding: 6px 16px;
   position: relative;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);

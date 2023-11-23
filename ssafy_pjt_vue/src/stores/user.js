@@ -24,6 +24,25 @@ export const useUserStore = defineStore('user', () => {
       return true
     }
   })
+  const banklist = [
+    '국민은행',
+    '우리은행',
+    '하나은행',
+    '신한은행',
+    '한국스탠다드차타드은행',
+    '농협은행',
+    '수협은행',
+    '대구은행',
+    '부산은행',
+    '광주은행',
+    '제주은행',
+    '전북은행',
+    '경남은행',
+    '중소기업은행',
+    '한국산업은행',
+    '케이뱅크',
+    '카카오뱅크',
+    '토스뱅크',]
   const isStaff = ref(false)
 
   const isLogin = computed(() => {
@@ -220,5 +239,5 @@ export const useUserStore = defineStore('user', () => {
   return { API_URL, token, isLogin, user, signUp, logIn, logOut,
     typeChange, portfolio, pfExist, getUser, getPortfolio, 
     createPortfolio, updatePortfolio, passwordChange,
-    profileUpdate, }
+    profileUpdate, banklist }
 }, { persist: true })

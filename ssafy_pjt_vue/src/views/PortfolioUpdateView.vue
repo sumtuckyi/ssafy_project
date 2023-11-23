@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Portfoli Update</h1>
+    <h1 style="text-align: center;">포트폴리오 수정</h1>
     <form @submit.prevent="updatePortfolio"  class="form-list">
       <div class="form-item">
         <select class="select" name="jobs" id="job" v-model.trim="job" required>
@@ -21,10 +21,7 @@
       <div class="form-item">
         <select class="select" name="banks" id="prefferedBank" v-model.trim="prefferedBank" required>
           <option disabled value="">선호 은행</option>
-          <option value="국민은행">국민은행</option>
-          <option value="우리은행">우리은행</option>
-          <option value="신한은행">신한은행</option>
-          <option value="하나은행">하나은행</option>
+          <option v-for="bank in userStore.banklist" value="bank">{{ bank }}</option>
         </select>
       </div>
       <div class="form-item last">

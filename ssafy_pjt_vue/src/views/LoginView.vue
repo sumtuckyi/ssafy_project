@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Login</h1>
+    <h1 style="text-align: center;">로그인</h1>
     <form @submit.prevent="logIn" class="form-list">
       <div class="form-item">
         <input class="input" type="text" placeholder="아이디" v-model.trim="username">

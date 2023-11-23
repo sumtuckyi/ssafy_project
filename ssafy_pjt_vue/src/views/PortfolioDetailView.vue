@@ -23,24 +23,147 @@
         </RouterLink>
       </div>
     </div>
+    <h1 style="text-align: center;">포트폴리오를 기반으로 상품을 추천해 드릴게요!</h1>
+    <div class="my-products-list">
+      <div class="product-card">
+        <h2>예금 상품 추천</h2>
+        <br>
+        <div v-for="deposit in deplist.slice(0, 5)">
+          {{ deposit.id }}: {{ deposit.kor_co_nm }} - {{ deposit.fin_prdt_nm }}
+        </div>
+      </div>
+      <div class="product-card">
+        <h2>적금 상품 추천</h2>
+        <br>
+        <div v-for="saving in savlist.slice(0, 5)">
+          {{ saving.id }}: {{ saving.kor_co_nm }} - {{ saving.fin_prdt_nm }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user';
+import { useCounterStore } from '../stores/counter';
 import axios from 'axios';
 
 const userStore = useUserStore()
+const store = useCounterStore()
+const deplist = ref(store.depPdtList)
+const savlist = ref(store.savPdtList)
+
+deplist.value.forEach((deposit) => {
+  let point = 0
+  if (userStore.portfolio.job === '직장인' || userStore.portfolio.job === '프리랜서') {
+    if (deposit.max_limit === -1) {
+      point += 15
+    }
+  }
+  if (userStore.portfolio.income < 30000000) {
+    if (deposit.join_deny === 2) {
+      point += 20
+    }
+  }
+  if (userStore.portfolio.age > 60) {
+    if (deposit.join_way.includes('영업점') || deposit.join_way.includes('전화')) {
+      point += 25
+    }
+  }
+  if (deposit.kor_co_nm.includes(userStore.portfolio.preffered_bank)) {
+    point += 25
+  }
+  let max_trm = 0
+  deposit.depositoption_set.forEach((option) => {
+    max_trm = Math.max(max_trm, option.save_trm)
+  })
+  if (userStore.portfolio.investment_type === 1) {
+    if (max_trm <= 12) {
+      point += 15
+    }
+  } else if (userStore.portfolio.investment_type === 2) {
+    if (max_trm = 24) {
+      point += 15
+    }
+  } else if (userStore.portfolio.investment_type === 3) {
+    if (max_trm = 36) {
+      point += 15
+    }
+  }
+  deposit.point = point
+})
+deplist.value.sort((a, b) => b.point - a.point,
+(a, b) => b.max_option - a.max_option)
+
+savlist.value.forEach((saving) => {
+  let point = 0
+  if (userStore.portfolio.job === '직장인' || userStore.portfolio.job === '프리랜서') {
+    if (saving.max_limit === -1 || saving.max_limit > 500000) {
+      point += 15
+    }
+  }
+  if (userStore.portfolio.income < 30000000) {
+    if (saving.join_deny === 2) {
+      point += 20
+    }
+  }
+  if (userStore.portfolio.age > 60) {
+    if (saving.join_way.includes('영업점') || saving.join_way.includes('전화')) {
+      point += 25
+    }
+  }
+  if (saving.kor_co_nm.includes(userStore.portfolio.preffered_bank)) {
+    point += 25
+  }
+  let max_trm = 0
+  saving.savingoption_set.forEach((option) => {
+    max_trm = Math.max(max_trm, option.save_trm)
+  })
+  if (userStore.portfolio.investment_type === 1) {
+    if (max_trm <= 12) {
+      point += 15
+    }
+  } else if (userStore.portfolio.investment_type === 2) {
+    if (max_trm = 24) {
+      point += 15
+    }
+  } else if (userStore.portfolio.investment_type === 3) {
+    if (max_trm = 36) {
+      point += 15
+    }
+  }
+  saving.point = point
+})
+savlist.value.sort((a, b) => b.point - a.point,
+(a, b) => b.max_option - a.max_option)
+
+  console.log(deplist.value)
+console.log(savlist.value)
 </script>
 
 <style scoped>
+.my-products-list {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+.product-card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 40%;
+  padding: 3%;
+}
 .portfolio-container {
+  width: 95%;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
+  padding-bottom: 30px;
 }
 .form-list {
   display: flex;

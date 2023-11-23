@@ -1,6 +1,13 @@
 <template>
     <div class="container">
-        <h1>main page</h1>
+        <div class="wrapper">
+            <img src="../public/bankmate2.png" alt="main">
+						<div class="sign-up">
+							<p>Make Your Account</p>
+							<button>가입하기</button>
+							<button>로그인</button>
+						</div>
+        </div>
         <div id="carousel-container">
             <transition name="fade" mode="out-in">
                 <div 
@@ -9,7 +16,6 @@
                 >
                     {{ currentSlide + 1 }}
                     <p>text text text</p>
-                    <img src="../public/favicon.ico" alt="">
                 </div>
             </transition>
         </div>
@@ -110,26 +116,41 @@ startCarousel();
 <style scoped>
 body {
     height: 100vh;
+		background-color: #F8F9FD;
 }
 .container {
-	background-image: url('/public/Grad_15.png'); /* Replace with the path to your PNG file */
-  background-size: cover; /* Adjust the background size */
-  background-repeat: no-repeat;
-  height: 100vh; /* Ensure the container takes the full viewport height */
-  margin: 0;
+  height: 1500px; /* Ensure the container takes the full viewport height */
+  margin: auto 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
   padding: 0;
 }
-
-
+img {
+	justify-self: end;
+	width: 450px;
+	height: 300px;
+	border-radius: 5px;
+}
+.wrapper {
+	display: flex;
+	width: 900px;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+}
+.sign-up {
+	font-size: 4rem;
+	padding: 1rem;
+	text-align: center;
+}
 #carousel-container {
     border: 1px gray solid;
-    width: 80%;
+    width: 900px;
     height: 300px;
-    margin: auto;
     overflow: hidden;
 }
 #news {
-    width: 80%;
+    width: 900px;
     height: 300px;
     margin: 10px auto;
     border: 1px gray solid;
@@ -172,5 +193,48 @@ li {
   100% {
     transform: rotate(360deg);
   }
+}
+button {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1A1A1A;
+  border-radius: 25px;
+  box-sizing: border-box;
+  color: #3B3B3B;
+  cursor: pointer;
+  display: inline-block;
+  /* font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; */
+  font-size: 13px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 5px;
+  min-height: 30px;
+  min-width: 0;
+  outline: none;
+  padding: 12px 5px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100px;
+  will-change: transform;
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
 </style>

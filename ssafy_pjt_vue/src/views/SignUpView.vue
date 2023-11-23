@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Signup</h1>
+    <h1 style="text-align: center;">BE OUR MATE</h1>
     <form @submit.prevent="signUp" class="form-list">
       <div class="form-item">
         <input class="input" type="text" placeholder="아이디" v-model.trim="username">

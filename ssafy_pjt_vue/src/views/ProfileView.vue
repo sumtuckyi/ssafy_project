@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ userStore.user }}
     <div class="profile-container">
       <form class="form-list">
         <div class="form-item">
@@ -131,9 +132,14 @@ onMounted(() => {
 
 <style scoped>
 .profile-container {
+  /* border: 1px solid lightgray; */
+  width: 95%;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 30px;
 }
 .form-list {
   display: flex;

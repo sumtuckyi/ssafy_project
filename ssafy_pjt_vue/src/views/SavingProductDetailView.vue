@@ -6,7 +6,7 @@
 			<div class="box">
 				<p class="join-way">
 					<span v-for="(item, index) in data.join_way?.replace(/\u0022/g, '').split(',')" :key="index">
-						<span>{{ item + ' ' }}</span>
+						<span>{{ item + '  ' }}</span>
 					</span>
 				</p>
 				<h2 class="pdt-name">{{ data.fin_prdt_nm }}</h2>
@@ -60,7 +60,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="item in Arr" :key="item.id">
+							<tr v-for="item in Arr" :key="item.id" class="card">
 								<td>{{ item.fin_prdt_nm }}</td>
 								<td>{{ item.kor_co_nm }}</td>
 								<td>{{ item.spcl_cnd }}</td>
@@ -247,6 +247,7 @@ h2 {
   top: 0;
   height: 100vh;
   width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -263,7 +264,7 @@ h2 {
   color: #000;
   padding: 1rem;
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 1rem;
   animation: move 0.1s ease-in;
 }
 .modal-content button {
@@ -283,6 +284,8 @@ h2 {
 .card button {
 	position: absolute;
 	right: 0;
+	top: 0;
+
 }
 .card p{
 	margin: 0;
@@ -323,23 +326,23 @@ table {
 }
 /* Style the table header */
 th, td {
-  border: 1px solid #dddddd;
+  border: 1.5px solid rgba(27, 31, 35, 0.15);
   text-align: left;
-  padding: 8px;
+  padding: 10px;
 }
 
 /* Add background color to alternating rows for better readability */
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color: #FFF0DD;
 }
 tr:nth-child(odd) {
   background-color: #FFCF96;
-}
+} */
 
 /* Style the table header */
 th {
   color: white;
-  background-color: #FBAF5E;
+  background-color: #2374c6;
 
 }
 button {
@@ -398,5 +401,4 @@ button:before {
 button:-webkit-details-marker {
   display: none;
 }
-
 </style>

@@ -21,10 +21,7 @@
       <div class="form-item">
         <select class="select" name="banks" id="prefferedBank" v-model.trim="prefferedBank" required>
           <option disabled value="">선호 은행</option>
-          <option value="국민은행">국민은행</option>
-          <option value="우리은행">우리은행</option>
-          <option value="신한은행">신한은행</option>
-          <option value="하나은행">하나은행</option>
+          <option v-for="bank in userStore.banklist" value="bank">{{ bank }}</option>
         </select>
       </div>
       <div class="form-item last">

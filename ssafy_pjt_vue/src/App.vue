@@ -108,6 +108,7 @@ body {
 }
 .wrapper {
   height: 100%;
+  width: 1000px;
   display: flex;
   /* flex-direction: column; */
   justify-content: center;
