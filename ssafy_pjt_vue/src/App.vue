@@ -1,15 +1,14 @@
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
+    <div>
+      <nav class="wrapper">
+        <div id="logo-container">
+          <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span> </RouterLink>
+          <RouterLink :to="{ name: 'main' }" id="no-pd"><img src="..\public\logo2.png" alt="logo" id="logo"></RouterLink>
+        </div> 
         <ul>
-          <li id="logo-container">
-            <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span> 
-            </RouterLink>
-            <RouterLink :to="{ name: 'main' }" id="no-pd"><img src="..\public\logo2.png" alt="logo" id="logo"></RouterLink> 
-          </li>
           <li>
-            <RouterLink :to="{ name: 'exchange' }"><p>환전</p></RouterLink>
+            <RouterLink :to="{ name: 'exchange' }">환전</RouterLink>
           </li>
           <li>
             <RouterLink :to="{ name: 'map' }">은행찾기</RouterLink>
@@ -17,6 +16,7 @@
           <li>
             <RouterLink :to="{ name: 'product' }">상품조회</RouterLink>
           </li>
+          
           <li @mouseover="openDropdown('article')" @mouseleave="closeDropdown('article')">
             <a>게시판</a>
             <ul v-show="isArticleDropdownOpen">
@@ -111,7 +111,8 @@ body {
   width: 1000px;
   display: flex;
   /* flex-direction: column; */
-  justify-content: center;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 #no-pd {
   padding: 0;
@@ -133,7 +134,7 @@ nav li {
   margin-right: 20px;
   position: relative;
   font-size: 1.5rem;
-  line-height: 3;
+  line-height: 2;
 }
 span {
   font-size: 1.5rem;
@@ -151,6 +152,7 @@ nav ul ul {
   position: absolute;
   top: 100%;
   left: 0;
+  transform: translateY(-20%);
 }
 nav ul li:hover > ul {
   display: inherit;

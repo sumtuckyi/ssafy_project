@@ -15,6 +15,7 @@ export const useArticleStore = defineStore('article', () => {
     })
       .then((res) => {
         articles.value = res.data
+        articles.value.sort((a, b) => b.id - a.id)
       })
       .catch(err => console.log(err))
   }

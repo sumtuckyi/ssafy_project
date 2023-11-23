@@ -21,7 +21,7 @@
       <div class="form-item">
         <select class="select" name="banks" id="prefferedBank" v-model.trim="prefferedBank" required>
           <option disabled value="">선호 은행</option>
-          <option v-for="bank in userStore.banklist" value="bank">{{ bank }}</option>
+          <option v-for="bank in userStore.banklist" :value="bank">{{ bank }}</option>
         </select>
       </div>
       <div class="form-item last">
@@ -68,6 +68,8 @@ const updatePortfolio = function () {
   text-align: center;
   margin-top: 50px;
   margin-bottom: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 .form-item {
   margin-top: -2px;

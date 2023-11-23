@@ -1,6 +1,5 @@
 <template>
-  <div>
-    {{ userStore.user }}
+  <div class="container">
     <div class="profile-container">
       <form class="form-list">
         <div class="form-item">
@@ -19,7 +18,7 @@
           <button>회원정보 수정</button>
         </RouterLink>
         <RouterLink :to="{ name: 'passwordchange'}">
-          <button>비밀변호 변경</button>
+          <button>비밀번호 변경</button>
         </RouterLink>
         <RouterLink 
           :to="{ name: 'portfoliocreate' }"
@@ -131,6 +130,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
 .profile-container {
   /* border: 1px solid lightgray; */
   width: 95%;

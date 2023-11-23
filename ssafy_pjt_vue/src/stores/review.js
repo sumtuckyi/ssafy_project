@@ -15,6 +15,7 @@ export const useReviewStore = defineStore('review', () => {
     })
       .then((res) => {
         reviews.value = res.data
+        reviews.value.sort((a, b) => b.id - a.id)
       })
       .catch(err => console.log(err))
   }

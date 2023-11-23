@@ -25,8 +25,12 @@
 					<p class="pdt-name">{{ product.fin_prdt_nm }}</p>
 				</div>
 				<div class="box-rate">
-					<p>{{ product.min_option }}</p>
-					<p v-if="product.min_option !== product.max_option">~{{ product.max_option }}</p>
+					<p v-if="product.min_option === product.max_option" class="rate">{{ product.max_option + '%' }}</p>
+					<p v-else class="rate">
+					<span class="min">{{ product.min_option + '~' }}</span>
+					{{ product.max_option + '%' }}</p>
+					<!-- <p>{{ product.min_option }}</p>
+					<p v-if="product.min_option !== product.max_option">~{{ product.max_option }}</p> -->
 				</div>
 			</div>
 		</div>
@@ -36,7 +40,7 @@
 					v-for="page in pages"
 					@click="changePage(page)"
 				>
-					<button id="page">{{ page }}</button>
+					<button>{{ page }}</button>
 				</li>
 			</ul>
 		</div>
@@ -138,18 +142,28 @@ onMounted(() => {
 	border-radius: 5px;
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
-.box p {
-	font-size: large;
-}
 .box-info p {
 	padding: 0.5rem;
 }
 .box-info p.join-way span:nth-child(even) {
 	color: rgb(30, 30, 133);
 }
-.pdt-name {
-	font-size: 3rem;
+.box-rate {
+	color: #1E1E85;
+	width: 100px;
+	display: flex;
+	align-items: center;
 }
+.min {
+	font-size: 1.5rem;
+	color: #3b3b9b;
+}
+.rate {
+	font-size: 2rem;
+}
+/* .pdt-name {
+	font-size: 3rem;
+} */
 #app > div > div > div > div.box-info > p.pdt-name {
 	font-size: 2rem;
 }

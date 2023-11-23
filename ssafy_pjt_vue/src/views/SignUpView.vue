@@ -3,21 +3,27 @@
     <h1 style="text-align: center;">BE OUR MATE</h1>
     <form @submit.prevent="signUp" class="form-list">
       <div class="form-item">
+        <i class="fa-solid fa-user fa-2xl"></i>
         <input class="input" type="text" placeholder="아이디" v-model.trim="username">
       </div>
       <div class="form-item">
+        <i class="fa-solid fa-lock fa-2xl"></i>
         <input class="input" type="password" placeholder="비밀번호" v-model.trim="password1">
       </div>
       <div class="form-item">
+        <i class="fa-solid fa-lock fa-2xl"></i>
         <input class="input" type="password" placeholder="비밀번호 확인" v-model.trim="password2">
       </div>
       <div class="form-item">
+        <i class="fa-solid fa-at fa-2xl icons"></i>
         <input class="input" type="text" placeholder="이메일" v-model.trim="email">
       </div>
       <div class="form-item">
+        <i class="fa-solid fa-id-card fa-2xl icons"></i>
         <input class="input" type="text" placeholder="성" v-model.trim="lastname">
       </div>
       <div class="form-item last">
+        <i class="fa-solid fa-id-card fa-2xl icons"></i>
         <input class="input" type="text" placeholder="이름" v-model.trim="firstname">
       </div>
       <button @click="submit">회원가입</button>
@@ -53,16 +59,28 @@ const signUp = function () {
 </script>
 
 <style scoped>
+.icons {
+  width: 28px;
+  margin-right: 10px;
+}
+.form-item ::before {
+  color: gray;
+  margin-right: 10px;
+}
 .form-list {
   text-align: center;
   margin-top: 50px;
   margin-bottom: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 .form-item {
   margin-top: -2px;
 }
 .input {
-  width: 50%;
+  margin-left: 10px;
+  padding-left: 15px;
+  width: 400px;
   height: 50px;
   font-size: 25px;
 }

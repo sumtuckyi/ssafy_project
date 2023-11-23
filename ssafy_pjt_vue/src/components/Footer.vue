@@ -10,6 +10,11 @@
             <li><a href="#">Contact</a></li>
           </ul>
         </nav>
+        <div class="social-icons">
+          <a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+          <a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+          <a href="#" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        </div>
       </div>
     </footer>
 </template>
@@ -19,13 +24,23 @@
 </script>
 
 <style scoped>
+.social-icons {
+    display: flex;
+    align-items: center;
+  }
+  .social-icons a {
+    margin-right: 10px;
+    color: #1b0202;
+    text-decoration: none;
+    font-size: 25px;
+  }
 footer {
-background-color: #1B4DFE;
-color: #fff;
+border-top: 1px solid #eee;
+color: #000;
 padding: 20px 0;
 text-align: center;
 z-index: 9000;
-
+position: relative;
 }
 
 .footer-content {
@@ -47,7 +62,7 @@ margin-right: 20px;
 }
 
 nav a {
-color: #fff;
+color: #000;
 text-decoration: none;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="portfolio-container">
       <form class="form-list">
         <div class="form-item">
@@ -29,14 +29,14 @@
         <h2>예금 상품 추천</h2>
         <br>
         <div v-for="deposit in deplist.slice(0, 5)">
-          {{ deposit.id }}: {{ deposit.kor_co_nm }} - {{ deposit.fin_prdt_nm }}
+          {{ deposit.kor_co_nm }} - {{ deposit.fin_prdt_nm }}
         </div>
       </div>
       <div class="product-card">
         <h2>적금 상품 추천</h2>
         <br>
         <div v-for="saving in savlist.slice(0, 5)">
-          {{ saving.id }}: {{ saving.kor_co_nm }} - {{ saving.fin_prdt_nm }}
+          {{ saving.kor_co_nm }} - {{ saving.fin_prdt_nm }}
         </div>
       </div>
     </div>
@@ -139,11 +139,16 @@ savlist.value.forEach((saving) => {
 savlist.value.sort((a, b) => b.point - a.point,
 (a, b) => b.max_option - a.max_option)
 
-  console.log(deplist.value)
+console.log(deplist.value)
 console.log(savlist.value)
 </script>
 
 <style scoped>
+.container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
 .my-products-list {
   display: flex;
   justify-content: space-evenly;

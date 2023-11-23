@@ -3,9 +3,11 @@
     <h1 style="text-align: center;">로그인</h1>
     <form @submit.prevent="logIn" class="form-list">
       <div class="form-item">
+        <i class="fa-solid fa-user fa-2xl"></i>
         <input class="input" type="text" placeholder="아이디" v-model.trim="username">
       </div>
       <div class="form-item last">
+        <i class="fa-solid fa-lock fa-2xl"></i>
         <input class="input" type="password" placeholder="비밀번호" v-model.trim="password">
       </div>
       <button @click="submit">로그인</button>
@@ -35,12 +37,20 @@ const logIn = function () {
   text-align: center;
   margin-top: 50px;
   margin-bottom: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 .form-item {
   margin-top: -2px;
 }
+.form-item ::before {
+  color: gray;
+  margin-right: 10px;
+}
 .input {
-  width: 50%;
+  margin-left: 10px;
+  padding-left: 15px;
+  width: 400px;
   height: 50px;
   font-size: 25px;
 }

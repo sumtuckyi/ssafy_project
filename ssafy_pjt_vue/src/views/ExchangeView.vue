@@ -1,18 +1,26 @@
 <template>
 	<div class="container">
-		<h2>환율계산기</h2>
+		<!-- <h2>환율계산기</h2> -->
 		<p class="title">어떤 통화로 바꾸실 건가요?</p>
+		<p v-if="isSeen">먼저 통화를 선택해주세요.</p>
 		<form>
 			<select id="cat-select" v-model="currency" required>
 				<option value="" disabled>환전을 원하는 통화를 선택하세요.</option>
 				<option v-for="(value, key) in store.cur_unit_code" :value="key">{{ value }}</option>
 			</select>
-			<input type="text" id="title" v-model="from" @input="changeValue('from')">
-			<label for="title"> ₩ </label>
-			<span class="material-symbols-outlined">sync_alt</span>
-			<input name="content" v-model="to" @input="changeValue('to')">
+			<input class="input" type="text" id="title" v-model="from" @input="changeValue('from')" @click="onClick" :isreadonly="isDisabled">
+			<label class="label" for="title"> ₩ </label>
+			<span class="material-symbols-outlined">trending_flat</span>
+			<!-- <input name="content" v-model="to" @input="changeValue('to')"> -->
+			<h2>{{ tweened.to.toFixed(0) }}</h2>
 		</form>
-		<p>{{ currency === 'IDR(100)' || currency === 'JPY(100)' ? rate * 100 : rate }} ₩ = {{ currency === 'IDR(100)' || currency === 'JPY(100)' ? 100 : 1 }} {{ currency }}</p>
+		<div class="buttons">
+			<button @click="add(1)">+10,000</button>
+			<button @click="add(5)">+50,000</button>
+			<button @click="add(10)">+100,000</button>
+			<button @click="add(0)">초기화</button>
+		</div>
+		<h3 v-if="!(currency === '')">{{ currency === 'IDR(100)' || currency === 'JPY(100)' ? rate * 100 : rate }} ₩ = {{ currency === 'IDR(100)' || currency === 'JPY(100)' ? 100 : 1 }} {{ currency }}</h3>
 		<br>
 		<div class="canvas">
 			<canvas ref="chartCanvas"></canvas>
@@ -21,22 +29,55 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, reactive, computed } from 'vue'
 import { useCounterStore } from '../stores/counter'
 import { Chart, registerables } from 'chart.js'
+import gsap from 'gsap'
 import axios from 'axios'
-const currency = ref('')
 
+const currency = ref('')
 const from = ref('')
 const data = ref([])
-const to = ref(1)
+const to = ref('')
 const store = useCounterStore()
 const rate = ref('')
+const isSeen = ref(false)
+const isDisabled = ref(true)
+
+//animation 넣어보기
+const tweened = reactive({
+	to: 0
+})
+watch(to, (n) => {
+	gsap.to(tweened, { duration: 0.3, to: Number(n) || 0})
+})
+
+//금액 입력 전에 통화 선택하게하기
+const onClick = function () {
+	if (currency.value === '') {
+		isSeen.value = true
+		isDisabled.value = true
+	}
+}
+// 클릭으로 금액 높이기
+const add = function(value) {
+	if (!(from.value === '')){
+		if (value === 0) {
+			from.value = 0
+			changeValue('from')
+		} else {
+			from.value += Number(value)*10000
+			changeValue('from')
+		}
+	}
+}
 
 Chart.register(...registerables)
 
 
 watch(currency, (item) => {
+	isSeen.value = false
+	isDisabled.value = false
 	if (Chart.getChart(chartCanvas.value)) {
 		Chart.getChart(chartCanvas.value).destroy()
 	}
@@ -81,6 +122,10 @@ const changeValue = function(text) {
 	}
 }
 
+watch(rate, (n) => {
+	changeValue('from')
+})
+
 // 여기서부터 차트 그리기
 const YER = { 
 	'USD': [1244.423, 1275.16, 1305.278, 1322.19, 1327.691, 1297.141, 1284.133, 1321.139, 1332.933, 1350.564],
@@ -108,34 +153,6 @@ const YER = {
 }
 const chartCanvas = ref('');
 let chartInstance = null;
-// onMounted(() => {
-// 	chartInstance = new Chart(chartCanvas.value?.getContext('2d'), {
-//         type: 'line',
-//         data: {
-//           labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월'],
-//           datasets: [{
-//             label: 'Yearly Exchange Rate (USD to KRW)',
-//             data: YER['USD'],
-//             fill: true,
-//             borderColor: 'rgb(75, 192, 192)',
-// 						backgroundColor: 'rgba(75, 192, 192, 0.2)',
-//             tension: 0.1
-//           }]
-//         },
-//         options: {
-//           scales: {
-//             y: {
-//               	beginAtZero: true,
-// 				ticks: {
-// 					stepSize: (Math.max(...YER['USD']) - Math.min(...YER['USD'])) / 5,
-// 				},
-// 				min: Math.min(...YER['USD']) * 0.95,
-// 				max: Math.max(...YER['USD']) * 1.05,
-//             },
-//         }
-//       }}
-// 	)
-// } )
 
 const graph = function () {
 	chartInstance = new Chart(chartCanvas.value?.getContext('2d'), {
@@ -156,7 +173,7 @@ const graph = function () {
 				y: {
 						beginAtZero: true,
 						ticks: {
-						stepSize: (Math.max(...YER[`${currency.value}`]) - Math.min(...YER[`${currency.value}`])) / 5,
+						// stepSize: ((Math.max(...YER[`${currency.value}`]) - Math.min(...YER[`${currency.value}`])) / 5).toFixed(1),
 						},
 						min: Math.min(...YER[`${currency.value}`]) * 0.95,
 						max: Math.max(...YER[`${currency.value}`]) * 1.05,
@@ -169,15 +186,22 @@ const graph = function () {
 </script>
 
 <style scoped>
+.label {
+	font-size: 2rem;
+}
+.input {
+	font-size: 2rem;
+	width: 180px;
+}
 .container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
-form {
+/* form {
 	margin-bottom: 2rem;
-}
+} */
 select {
 	margin-right: 1rem;
 	height: 35px;
@@ -185,22 +209,25 @@ select {
 }
 .title {
 	margin-top: 2rem;
+	padding: 3rem;
 	font-size: 2rem;
 }
 .canvas {
+	margin-top: 50px;
 	height: 400px;
 	width: 700px;
 }
 
 /* @import url('https://fonts.googleapis.com/icon?family=Material+Icons'); */
 .material-symbols-outlined {
-	line-height: 2;
-	margin: 0.5rem;
-  font-variation-settings:
+	font-variation-settings:
   'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 25
+  'wght' 500,
+  'GRAD' 3,
+  'opsz' 35;
+  font-weight: bold;
+  font-size: 3rem;
+  color: #3c4fe0;
 }
 canvas {
 	width: 400px;
@@ -223,7 +250,7 @@ input {
 	cursor: text;
 	font-size: 14px;
 	line-height: 20px;
-	
+	padding: 0 10px;
 	height: 40px;
 	background-color: #fff;
 	border: 1px solid #d6d6e7;
@@ -236,5 +263,68 @@ input {
 input:focus {
 	border-color: #3c4fe0;
 	box-shadow: 0 1px 0 0 rgb(35 38 59 / 5%);
+}
+h2 {
+	font-size: 3rem;
+	margin-left: 1rem;
+}
+.buttons {
+	margin-bottom: 1rem;
+}
+button {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin-right: 1rem;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+button:-webkit-details-marker {
+  display: none;
 }
 </style>

@@ -1,14 +1,35 @@
 <template>
     <div class="container">
         <div class="wrapper">
-            <img src="../public/bankmate2.png" alt="main">
+            <img src="../public/card.gif" alt="main">
 						<div class="sign-up">
-							<p>Make Your Account</p>
-							<button>가입하기</button>
-							<button>로그인</button>
+							<p v-if="!userStore.isLogin">Make Your Account!</p>
+							<p v-else>Welcome back, {{ userStore.user.username }}!</p>
+							<button v-if="!userStore.isLogin">
+								<RouterLink :to="{ name: 'login' }">
+								로그인</RouterLink>
+							</button>
+							<button v-if="!userStore.isLogin">
+								<RouterLink :to="{ name: 'signup' }">
+								가입하기</RouterLink>
+							</button>
+							<button v-else>
+								<RouterLink :to="{ name: 'profile' }">
+								마이 페이지
+								</RouterLink>
+							</button>
 						</div>
         </div>
-        <div id="carousel-container">
+				<div class="carousel">
+					<swiper :options="swiperOptions">
+						<swiper-slide v-for="item in carouselItems" :key="item.id">
+							<!-- Your carousel item content goes here -->
+							<img :src="item.image" alt="Carousel Item" />
+						</swiper-slide>
+						<!-- Add more slides as needed -->
+					</swiper>
+				</div>
+        <!-- <div id="carousel-container">
             <transition name="fade" mode="out-in">
                 <div 
                 :key="currentSlide" 
@@ -18,12 +39,12 @@
                     <p>text text text</p>
                 </div>
             </transition>
-        </div>
+        </div> -->
         <div id="news">
-            <p>금융뉴스 가져오기</p>
-            {{ news.items }}
-            <ul>
-                <li v-for="(item, index) in news" :key="index">
+            <h3>NEWS</h3>
+						<!-- <p>{{ news.items }}</p> -->
+            <ul class="news">
+                <li v-for="(item, index) in news" :key="index" class="news-item">
                     <a :href="item.link"><p>{{ item.title }}</p></a>
                     <p>{{ item.pubDate.slice(0, 17) }}</p>
                 </li>
@@ -37,17 +58,38 @@ import axios from 'axios';
 import { ref, watch, onBeforeUnmount, onMounted } from 'vue'
 import config from '../config/config'
 import { useCounterStore } from './stores/counter';
+import { RouterLink, RouterView } from 'vue-router'
+import { useUserStore } from '@/stores/user';
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+// import 'swiper/swiper-bundle.css';
 
+const userStore = useUserStore()
 const store = useCounterStore()
-const currentSlide = ref(0);
-const slides = [
-    'Slide 1',
-    'Slide 2',
-    'Slide 3',
-    // Add more slides as needed
-];
-const interval = 4000; // Change slide every 3 seconds
-let intervalId;
+
+//
+const swiperOptions = ref({
+      slidesPerView: 1,
+      spaceBetween: 15,
+      loop: true,
+      autoplay: {
+        delay: 1000,
+        disableOnInteraction: false,
+      },
+    });
+
+const carouselItems = ref([
+	{ id: 1, image: '../public/Grad_15.png' },
+	{ id: 2, image: '../public/Grad_17.png' },
+	// Add more items as needed
+]);
+
+// onMounted(() => {
+//       // Access Swiper instance and destroy it when component is unmounted
+//       const swiper = document.querySelector('.carousel').swiper;
+//       if (swiper) swiper.destroy(true, true);
+//     });
+
+
 
 // 금융뉴스 가져오기 - 장고로 요청 보내기 
 
@@ -66,6 +108,7 @@ const get_finance_news = function () {
             for(const item of news.value) {
                 console.log(item.title)
                 item.title = item.title.replace(/&quot;/g, '"')
+								.replace(/&amp;/g, '&')
                 .replace(/<b>/g, '')
                 .replace(/<\/b>/g, '');
             }
@@ -87,28 +130,29 @@ onMounted(() => {
 
 
 
-const startCarousel = () => {
-    intervalId = setInterval(nextSlide, interval);
-};
+//carousel
+// const startCarousel = () => {
+//     intervalId = setInterval(nextSlide, interval);
+// };
 
-const stopCarousel = () => {
-    clearInterval(intervalId);
-};
+// const stopCarousel = () => {
+//     clearInterval(intervalId);
+// };
 
-const nextSlide = () => {
-    currentSlide.value = (currentSlide.value + 1) % slides.length;
-};
+// const nextSlide = () => {
+//     currentSlide.value = (currentSlide.value + 1) % slides.length;
+// };
 
-watch(currentSlide, () => {
-    stopCarousel();
-    startCarousel();
-});
+// watch(currentSlide, () => {
+//     stopCarousel();
+//     startCarousel();
+// });
 
-onBeforeUnmount(() => {
-    stopCarousel();
-});
+// onBeforeUnmount(() => {
+//     stopCarousel();
+// });
 
-startCarousel();
+// startCarousel();
 
 
 </script>
@@ -116,15 +160,16 @@ startCarousel();
 <style scoped>
 body {
     height: 100vh;
-		background-color: #F8F9FD;
+	background-color: #F8F9FD;
 }
 .container {
-  height: 1500px; /* Ensure the container takes the full viewport height */
+  /* height: 1500px;  */
   margin: auto 0;
+	height: 1500px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  padding: 0;
+	padding: 0;
 }
 img {
 	justify-self: end;
@@ -137,30 +182,46 @@ img {
 	width: 900px;
 	justify-content: space-between;
 	margin-bottom: 2rem;
+	margin-top: 25px;
 }
 .sign-up {
 	font-size: 4rem;
 	padding: 1rem;
 	text-align: center;
 }
+.news {
+	padding: 2rem;
+}
+.news-item {
+	display: flex;
+	justify-content: space-between;
+}
 #carousel-container {
     border: 1px gray solid;
     width: 900px;
-    height: 300px;
+    height: 400px;
     overflow: hidden;
+}
+.carousel {
+  width: 100%;
+  overflow: hidden;
 }
 #news {
     width: 900px;
-    height: 300px;
+    height: 400px;
     margin: 10px auto;
-    border: 1px gray solid;
+		margin-top: 25px;
+    
 }
 #news p {
     display: inline;
     margin: 0.5rem;
     line-height: 1.5;
 }
-
+#news h3 {
+	border-bottom: #3B3B3B solid 1px;
+	font-size: 25px;
+}
 .fade {
     height: 50%;
     min-width: 100%;
@@ -180,6 +241,7 @@ img {
     text-decoration: none;
     color: black;
 }
+
 .fade-enter, .fade-leave-to {
     opacity: 0;
 }
@@ -204,7 +266,7 @@ button {
   cursor: pointer;
   display: inline-block;
   /* font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; */
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   line-height: normal;
   margin: 5px;
@@ -228,7 +290,7 @@ button:disabled {
 
 button:hover {
   color: #fff;
-  background-color: #1A1A1A;
+  /* background-color: #1A1A1A; */
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
 }
@@ -237,4 +299,10 @@ button:active {
   box-shadow: none;
   transform: translateY(0);
 }
+a {
+	text-decoration: none;
+	color: #1A1A1A;
+}
+
+
 </style>
