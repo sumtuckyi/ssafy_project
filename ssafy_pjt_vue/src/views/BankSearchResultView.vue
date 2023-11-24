@@ -77,7 +77,7 @@ onMounted(() => {
 	temp_list.value = store.depPdtList
 	
 	const temp = temp_list.value.filter((item) => 
-		item.kor_co_nm.includes(keyword))
+		item.kor_co_nm.includes(keyword) || item.fin_prdt_nm.includes(keyword))
 	console.log(temp)
 	pdtList_d.value = temp
 	
@@ -85,7 +85,7 @@ onMounted(() => {
 	temp_list2.value = store.savPdtList
 
 	const temp2 = temp_list2.value.filter((item) => 
-		item.kor_co_nm.includes(keyword))
+		item.kor_co_nm.includes(keyword) || item.fin_prdt_nm.includes(keyword))
 	pdtList_s.value = temp2
 	
 })

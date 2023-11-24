@@ -29,14 +29,14 @@
         <h2>예금 상품 추천</h2>
         <br>
         <div v-for="deposit in deplist.slice(0, 5)">
-          {{ deposit.kor_co_nm }} - {{ deposit.fin_prdt_nm }}
+          {{ deposit.kor_co_nm }} - <RouterLink class="router" :to="{ name: 'depositDetail', params: {id: deposit.fin_prdt_cd} }">{{ deposit.fin_prdt_nm }}</RouterLink>
         </div>
       </div>
       <div class="product-card">
         <h2>적금 상품 추천</h2>
         <br>
         <div v-for="saving in savlist.slice(0, 5)">
-          {{ saving.kor_co_nm }} - {{ saving.fin_prdt_nm }}
+          {{ saving.kor_co_nm }} - <RouterLink class="router" :to="{ name: 'savingDetail', params: {id: saving.fin_prdt_cd} }">{{ saving.fin_prdt_nm }}</RouterLink>
         </div>
       </div>
     </div>
@@ -144,6 +144,11 @@ console.log(savlist.value)
 </script>
 
 <style scoped>
+.router {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
 .container {
   width: 80%;
   margin: 0 auto;

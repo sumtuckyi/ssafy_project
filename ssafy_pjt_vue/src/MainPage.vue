@@ -1,15 +1,38 @@
 <template>
     <div class="container">
+      <Carousel :autoplay="3000" :itemsToShow="2" :wrapAround="true" :transition="500">
+        <Slide v-for="slide in 4" :key="slide">
+          <div class="carousel__item">
+            <img :src="getImageUrl(slide)" alt="">
+          </div>
+        </Slide>
+        <template #addons>
+          <Navigation />
+          <Pagination />
+        </template>
+      </Carousel>
+
+        <div class="promo">
+          <h1>가입자 수 {{ tweened.number.toFixed(0) }}명</h1>
+        </div>
+
         <div class="wrapper">
             <img src="../public/card.gif" alt="main">
 						<div class="sign-up">
 							<p v-if="!userStore.isLogin">Make Your Account!</p>
 							<p v-else>Welcome back, {{ userStore.user.username }}!</p>
-							<button v-if="!userStore.isLogin">
+
+              <RouterLink v-if="!userStore.isLogin" :to="{ name: 'login' }">
+              <button>로그인</button></RouterLink>
+              <RouterLink v-if="!userStore.isLogin" :to="{ name: 'signup' }">
+              <button>가입하기</button></RouterLink>
+              <RouterLink v-else :to="{ name: 'profile' }">
+              <button>마이 페이지</button></RouterLink>
+							<!-- <button v-if="!userStore.isLogin">
 								<RouterLink :to="{ name: 'login' }">
 								로그인</RouterLink>
-							</button>
-							<button v-if="!userStore.isLogin">
+							</button> -->
+							<!-- <button v-if="!userStore.isLogin">
 								<RouterLink :to="{ name: 'signup' }">
 								가입하기</RouterLink>
 							</button>
@@ -17,31 +40,11 @@
 								<RouterLink :to="{ name: 'profile' }">
 								마이 페이지
 								</RouterLink>
-							</button>
+							</button> -->
 						</div>
         </div>
-				<div class="carousel">
-					<swiper :options="swiperOptions">
-						<swiper-slide v-for="item in carouselItems" :key="item.id">
-							<!-- Your carousel item content goes here -->
-							<img :src="item.image" alt="Carousel Item" />
-						</swiper-slide>
-						<!-- Add more slides as needed -->
-					</swiper>
-				</div>
-        <!-- <div id="carousel-container">
-            <transition name="fade" mode="out-in">
-                <div 
-                :key="currentSlide" 
-                class="fade"
-                >
-                    {{ currentSlide + 1 }}
-                    <p>text text text</p>
-                </div>
-            </transition>
-        </div> -->
         <div id="news">
-            <h3>NEWS</h3>
+            <h3>실시간 금융 NEWS</h3>
 						<!-- <p>{{ news.items }}</p> -->
             <ul class="news">
                 <li v-for="(item, index) in news" :key="index" class="news-item">
@@ -55,39 +58,31 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, watch, onBeforeUnmount, onMounted } from 'vue'
+import { ref, watch, onBeforeUnmount, onMounted, reactive } from 'vue'
 import config from '../config/config'
 import { useCounterStore } from './stores/counter';
 import { RouterLink, RouterView } from 'vue-router'
 import { useUserStore } from '@/stores/user';
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-// import 'swiper/swiper-bundle.css';
+import { Carousel, Pagination, Slide } from 'vue3-carousel'
+import gsap from 'gsap'
+import 'swiper/swiper-bundle.css';
+import 'vue3-carousel/dist/carousel.css'
 
 const userStore = useUserStore()
 const store = useCounterStore()
 
 //
-const swiperOptions = ref({
-      slidesPerView: 1,
-      spaceBetween: 15,
-      loop: true,
-      autoplay: {
-        delay: 1000,
-        disableOnInteraction: false,
-      },
-    });
-
-const carouselItems = ref([
-	{ id: 1, image: '../public/Grad_15.png' },
-	{ id: 2, image: '../public/Grad_17.png' },
-	// Add more items as needed
-]);
-
-// onMounted(() => {
-//       // Access Swiper instance and destroy it when component is unmounted
-//       const swiper = document.querySelector('.carousel').swiper;
-//       if (swiper) swiper.destroy(true, true);
-//     });
+const number = ref(0)
+const tweened = reactive({
+  number: 0
+})
+watch(number, (n) => {
+  gsap.to(tweened, {duration: 0.75, number: Number(n) || 0})
+})
+// 이미지 주소 동적 할당
+const getImageUrl = (slide) => {
+  return `../public/carousel-${slide}.png`;
+};
 
 
 
@@ -126,46 +121,18 @@ onMounted(() => {
     store.get_sav()
     store.save_deposits()
     store.save_savings()
+    number.value = 30510
 })
-
-
-
-//carousel
-// const startCarousel = () => {
-//     intervalId = setInterval(nextSlide, interval);
-// };
-
-// const stopCarousel = () => {
-//     clearInterval(intervalId);
-// };
-
-// const nextSlide = () => {
-//     currentSlide.value = (currentSlide.value + 1) % slides.length;
-// };
-
-// watch(currentSlide, () => {
-//     stopCarousel();
-//     startCarousel();
-// });
-
-// onBeforeUnmount(() => {
-//     stopCarousel();
-// });
-
-// startCarousel();
-
-
 </script>
 
 <style scoped>
 body {
-    height: 100vh;
+  height: 100vh;
 	background-color: #F8F9FD;
 }
 .container {
-  /* height: 1500px;  */
   margin: auto 0;
-	height: 1500px;
+	height: 1800px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -189,6 +156,14 @@ img {
 	padding: 1rem;
 	text-align: center;
 }
+.promo {
+  height: 350px;
+  text-align: center;
+  font-size: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .news {
 	padding: 2rem;
 }
@@ -196,15 +171,16 @@ img {
 	display: flex;
 	justify-content: space-between;
 }
-#carousel-container {
-    border: 1px gray solid;
-    width: 900px;
-    height: 400px;
-    overflow: hidden;
+.news-item:hover {
+  transform: rotateY(360deg);
+}
+.news-item:hover::after {
+  transform: rotateY(180deg);
 }
 .carousel {
   width: 100%;
   overflow: hidden;
+  margin-top: 50px;
 }
 #news {
     width: 900px;
@@ -222,21 +198,6 @@ img {
 	border-bottom: #3B3B3B solid 1px;
 	font-size: 25px;
 }
-.fade {
-    height: 50%;
-    min-width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 2em;
-    padding: 20px;
-    background-color: transparent;
-    transition: transform 1s ease-in-out; /* Add a transition effect for smooth sliding */
-    will-change: transform; /* Optimize for smoother animations */
-}
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.5s;
-}
 #news a {
     text-decoration: none;
     color: black;
@@ -247,14 +208,6 @@ img {
 }
 li {
     list-style: none;
-}
-@keyframes rotateBackground {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 button {
   appearance: none;
@@ -289,7 +242,7 @@ button:disabled {
 }
 
 button:hover {
-  color: #fff;
+  color: #000;
   /* background-color: #1A1A1A; */
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
@@ -303,6 +256,62 @@ a {
 	text-decoration: none;
 	color: #1A1A1A;
 }
-
-
+.carousel__item {
+  min-height: 400px;
+  width: 200px;
+  /* background-color: var(--vc-clr-primary); */
+  color: var(--vc-clr-white);
+  font-size: 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.carousel__slide {
+  padding: 5px;
+}
+.carousel__prev,
+.carousel__next {
+  box-sizing: content-box;
+  border: 2px solid white;
+}
+.carousel__slide {
+  padding: 0;
+}
+.carousel__viewport {
+  perspective: 300px;
+}
+.carousel__track {
+  transform-style: preserve-3d;
+}
+.carousel__slide--sliding {
+  transition: 0.5s;
+}
+.carousel__slide {
+  opacity: 0.9;
+  transform: rotateY(-20deg) scale(0.9);
+}
+.carousel__slide--active ~ .carousel__slide {
+  transform: rotateY(20deg) scale(0.9);
+}
+.carousel__slide--prev {
+  opacity: 0.5;
+  transform: rotateY(-10deg) scale(0.95);
+}
+.carousel__slide--next {
+  opacity: 0.5;
+  transform: rotateY(10deg) scale(0.95);
+}
+.carousel__slide--active {
+  opacity: 1;
+  transform: rotateY(0) scale(1.3);
+}
+.carousel__slide--next {
+  opacity: 0.5;
+  transform: rotateY(10deg) scale(0.95);
+}
+.carousel__slide--active {
+  opacity: 1;
+  transform: rotateY(0) scale(1.3);
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1 style="text-align: center;">BE OUR MATE</h1>
     <form @submit.prevent="signUp" class="form-list">
       <div class="form-item">
@@ -59,6 +59,13 @@ const signUp = function () {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+}
+.container {
+  height: 750px;
+}
 .icons {
   width: 28px;
   margin-right: 10px;

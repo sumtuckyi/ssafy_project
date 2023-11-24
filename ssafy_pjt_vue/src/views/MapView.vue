@@ -1,5 +1,7 @@
 <template>
+  <!-- <div class="container" @mousemove="handleMouseMove" :style="{ transform: `translate(${parallaxX}px, ${parallaxY}px)` }"> -->
   <div class="container">
+    <!-- <img src="../../public/logo2.png" alt="icon" id="move"> -->
     <p class="title">내주변 은행 검색하기</p>
     <form @submit.prevent="searchPlaces">
       <input type="text" v-model="keyword" placeholder="장소나 은행이름을 입력하세요.">
@@ -21,8 +23,20 @@
 import { ref, onMounted, toRaw } from 'vue';
 import config from '../../config/config'
 const keyword = ref('')
+//
+const parallaxX = ref(0);
+const parallaxY = ref(0);
+
+const handleMouseMove = (event) => {
+  const mouseX = event.clientX / window.innerWidth - 0.5;
+  const mouseY = event.clientY / window.innerHeight - 0.5;
+
+  parallaxX.value = mouseX * 50; // Adjust the multiplier for the parallax effect
+  parallaxY.value = mouseY * 50; // Adjust the multiplier for the parallax effect
+};
 
 
+//지도
 var map
 
 // 마커를 담을 배열
@@ -353,7 +367,6 @@ function displayMarker(place) {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container {
-  
   background-image: url('/public/Grad_17.png'); /* Replace with the path to your PNG file */
   background-size: cover; /* Adjust the background size */
   background-repeat: no-repeat;
@@ -363,7 +376,6 @@ function displayMarker(place) {
   display: flex;
   justify-content: center;
   align-items: center;
-  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -507,5 +519,9 @@ li {
   color:#777;
 }
 
-
+#move {
+  z-index: 2000;
+  width: 3rem;
+  height: 3rem;
+}
 </style>

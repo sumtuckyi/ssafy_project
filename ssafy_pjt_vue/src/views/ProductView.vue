@@ -17,19 +17,30 @@
 				</li>
 				</ul>
 			</div>
-			
+		</div>
+		<div class="wrapper4">
+			<RouterLink :to="{ name: 'deposit' }">
+				<div class="card-2" @mouseover="changeImageSrc(1)" @mouseout="resetImageSrc(1)">
+					예금 조회<img :src="img_src_1" alt="icon">
+				</div>
+			</RouterLink>
+			<RouterLink :to="{ name: 'saving' }">
+				<div class="card-2" @mouseover="changeImageSrc(2)" @mouseout="resetImageSrc(2)">
+					적금 조회<img :src="img_src_2" alt="">
+				</div>
+			</RouterLink>
 		</div>
 		<div class="wrapper3">
 			<div class="innerbox">
-				<h3>은행이름으로 검색</h3>
+				<h3>은행 및 상품 이름으로 검색</h3>
 				<form @submit.prevent="goSearch">
-					<input id="bank-search-input" type="text" v-model="keyword" placeholder="은행이름을 입력하세요.">
+					<input id="bank-search-input" type="text" v-model.trim="keyword" placeholder="은행이나 상품 이름을 입력하세요.">
 					<button type="submit">검색</button>
 				</form>
 			</div>
 		</div>
 		<div class="wrapper2">
-			<h3>최고 금리 상품 조회</h3>
+			<h3>기간별 상품 조회</h3>
 			<div class="box">
 				<form @submit.prevent="filterPdt">
 					<div id="pdt">
@@ -60,22 +71,12 @@
 			</div>
 		</div>
 		
-		<div class="wrapper4">
-			<div class="card-2" @mouseover="changeImageSrc(1)" @mouseout="resetImageSrc(1)">
-				<RouterLink :to="{ name: 'deposit' }">예금 조회</RouterLink>
-				<img :src="img_src_1" alt="icon">
-			</div>
-			<div class="card-2" @mouseover="changeImageSrc(2)" @mouseout="resetImageSrc(2)">
-				<RouterLink :to="{ name: 'saving' }">적금 조회</RouterLink>
-				<img :src="img_src_2" alt="">
-			</div>
-		</div>
 	</div>
 	 
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import axios from 'axios';
 import { useCounterStore } from '../stores/counter';
 import { useRoute, useRouter } from 'vue-router';
@@ -122,14 +123,28 @@ const filterPdt = function () {
 }
 
 const goSearch = function () {
-	router.push({ name: 'bankSearch', params: { name: keyword.value }})
+	if (keyword.value === '') {
+		window.alert('검색어를 입력해주세요!')
+	} else {
+		router.push({ name: 'bankSearch', params: { name: keyword.value }})
+	}
 }
 
 onMounted(() => {
 	
 	store.save_deposits() // db -> 스토어 
-	store.save_savings()
+	// store.save_savings()
 	const temp_data = store.depPdtList // 스토어에서 예금 상품 리스트 가져오기
+	console.log('정렬 이전', temp_data)
+	temp_data.sort((a, b) => 
+			b.like_users.length - a.like_users.length
+		)	
+	console.log(temp_data[4].like_users.length)
+	temp_pdts.value = temp_data.slice(0, 3)
+})
+
+watch(() => store.depPdtList, (newvalue) => {
+	const temp_data = newvalue // 스토어에서 예금 상품 리스트 가져오기
 	console.log('정렬 이전', temp_data)
 	temp_data.sort((a, b) => 
 			b.like_users.length - a.like_users.length
@@ -162,7 +177,10 @@ a {
 	margin: 0 auto;
 	margin-top: 2rem;
 	/* border: 1px solid darkcyan; */
-
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-use-select: none;
+	user-select: none;
 }
 .wrapper1 {
 	/* border: 1px solid black; */
@@ -182,7 +200,7 @@ a {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-color: #EDEFF2;
+	/* background-color: #EDEFF2; */
 }
 .wrapper3 {
 	/* border: 1px solid darkred; */
@@ -192,11 +210,12 @@ a {
 	/* padding-left: 600px; */
 	flex-direction: column;
 	justify-content: center;
+	background-color: #EDEFF2;
 }
 .wrapper4 {
 	display: flex;
 	width: auto;
-	height: 400px;
+	height: 300px;
 	align-items: center;
 }
 .field {
@@ -230,10 +249,14 @@ a {
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	transition: transform 0.3s ease-in-out;
 	font-size: 50px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 
 }
 .card-2:hover {
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	transform: scale(1.1);
 }
 .pdt-name {
 	font-size: 25px;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1 style="text-align: center;">로그인</h1>
     <form @submit.prevent="logIn" class="form-list">
       <div class="form-item">
@@ -33,6 +33,13 @@ const logIn = function () {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+}
+.container {
+  height: 750px;
+}
 .form-list {
   text-align: center;
   margin-top: 50px;

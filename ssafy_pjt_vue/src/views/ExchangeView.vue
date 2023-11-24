@@ -20,7 +20,7 @@
 			<button @click="add(10)">+100,000</button>
 			<button @click="add(0)">초기화</button>
 		</div>
-		<h3 v-if="!(currency === '')">{{ currency === 'IDR(100)' || currency === 'JPY(100)' ? rate * 100 : rate }} ₩ = {{ currency === 'IDR(100)' || currency === 'JPY(100)' ? 100 : 1 }} {{ currency }}</h3>
+		<h3 v-if="!(currency === '')">{{ currency === 'IDR(100)' || currency === 'JPY(100)' ? rate * 100 : rate }} ₩ = {{ currency === 'IDR(100)' || currency === 'JPY(100)' ? 100 + ' ' + currency.slice(0, 3) : 1 + ' ' + currency }}</h3>
 		<br>
 		<div class="canvas">
 			<canvas ref="chartCanvas"></canvas>
@@ -66,7 +66,7 @@ const add = function(value) {
 			from.value = 0
 			changeValue('from')
 		} else {
-			from.value += Number(value)*10000
+			from.value = Number(from.value) + Number(value)*10000
 			changeValue('from')
 		}
 	}

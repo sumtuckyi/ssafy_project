@@ -5,7 +5,7 @@
 		</div>
 		<div class="buttons">
 			<router-link :to="{ name: 'deposit' }"><button id="deposit-btn">예금 상품 조회</button></router-link>
-			<button @click="sortByCustomers">인기순</button>
+			<button @click="sortByCustomers">판매순</button>
 			<button @click="sortByRate">금리순</button>
 		</div>
 		<div 
@@ -45,7 +45,6 @@
 			</ul>
 		</div>
 	</div>
-	<Sidebar />
 </template>
 
 <script setup>
@@ -96,8 +95,8 @@ const sortByRate = function () {
 const sortedArr_customer = ref([]) 
 watchEffect(() => {
 	sortedArr_customer.value = products.value.slice().sort((a, b) => {
-		const fa = a.like_users.length
-		const fb = b.like_users.length
+		const fa = a.joined_users.length
+		const fb = b.joined_users.length
 		if (fa < fb) {
 			return 1
 		} if (fa > fb) {

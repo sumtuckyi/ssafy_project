@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1 style="text-align: center;">포트폴리오 수정</h1>
     <form @submit.prevent="updatePortfolio"  class="form-list">
       <div class="form-item">
@@ -64,6 +64,13 @@ const updatePortfolio = function () {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+}
+.container {
+  height: 750px;
+}
 .form-list {
   text-align: center;
   margin-top: 50px;

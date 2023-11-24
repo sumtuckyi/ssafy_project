@@ -133,6 +133,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res);
         userStore.getUser()
+        save_deposits() // db -> 스토어 
       })
       .catch((err) => {
         console.log(err)
@@ -150,6 +151,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res);
         userStore.getUser()
+	      save_savings()
       })
       .catch((err) => {
         console.log(err)
@@ -167,6 +169,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res)
         userStore.getUser()
+        save_deposits() // db -> 스토어 
         if (res.data.message === 'join') {
           window.alert('가입 완료!')
         } else {
@@ -189,6 +192,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res)
         userStore.getUser()
+	      save_savings()
         if (res.data.message === 'join') {
           window.alert('가입 완료!')
         } else {

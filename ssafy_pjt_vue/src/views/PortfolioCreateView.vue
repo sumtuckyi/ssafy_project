@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Portfolio Create</h1>
+  <div class="container">
+    <h1 style="text-align: center;">포트폴리오 만들기</h1>
     <form @submit.prevent="createPortfolio"  class="form-list">
       <div class="form-item">
         <select class="select" name="jobs" id="job" v-model.trim="job" required>
@@ -65,6 +65,13 @@ const createPortfolio = function () {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+}
+.container {
+  height: 750px;
+}
 .form-list {
   text-align: center;
   margin-top: 50px;
@@ -74,16 +81,19 @@ const createPortfolio = function () {
 }
 .form-item {
   margin-top: -2px;
+  
 }
 .input {
   width: 50%;
   height: 50px;
   font-size: 25px;
+  padding-left: 10px;
 }
 .select {
   width: 50.1%;
   height: 50px;
   font-size: 25px;
+  padding-left: 10px;
 }
 .last {
   margin-bottom: 30px;
@@ -103,7 +113,7 @@ button {
   font-weight: 500;
   line-height: 20px;
   list-style: none;
-  padding: 6px 16px;
+  padding: 10px 25px;
   position: relative;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   user-select: none;

@@ -62,6 +62,9 @@ const updateReview = function () {
 </script>
 
 <style scoped>
+button {
+  float: right;
+}
 .container {
   width: 1000px;
   /* height: 650px; */

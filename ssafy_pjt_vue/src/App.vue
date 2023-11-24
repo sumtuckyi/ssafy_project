@@ -3,7 +3,7 @@
     <div>
       <nav class="wrapper">
         <div id="logo-container">
-          <RouterLink :to="{ name: 'main' }" class="home"><span>B</span>ank<span>MATE</span> </RouterLink>
+          <RouterLink :to="{ name: 'main' }" class="home"><span style="color: #1B4DFF !important;">B</span><span>ank</span><span style="color: #1B4DFF !important;">MATE</span> </RouterLink>
           <RouterLink :to="{ name: 'main' }" id="no-pd"><img src="..\public\logo2.png" alt="logo" id="logo"></RouterLink>
         </div> 
         <ul>
@@ -20,8 +20,8 @@
           <li @mouseover="openDropdown('article')" @mouseleave="closeDropdown('article')">
             <a>게시판</a>
             <ul v-show="isArticleDropdownOpen">
-              <RouterLink :to="{ name: 'articles'}">Articles</RouterLink>
-              <RouterLink :to="{ name: 'reviews'}">Reviews</RouterLink>
+              <RouterLink :to="{ name: 'articles'}">자유</RouterLink>
+              <RouterLink :to="{ name: 'reviews'}">리뷰</RouterLink>
             </ul>
           </li>
           <li 
@@ -56,14 +56,16 @@
     </div>
   </header>
   <RouterView />
+  <Sidebar />
   <Footer />
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
-import Footer from '@/components/footer.vue'
+import Footer from '@/components/Footer.vue'
 import { useUserStore } from '@/stores/user';
+import Sidebar from '@/components/Sidebar.vue';
 
 const userStore = useUserStore()
 
@@ -123,6 +125,8 @@ nav {
   /* text-align: center; */
   font-size: 1rem;
   background-color: white;
+  position: sticky;
+  top: 0;
 }
 nav ul {
   list-style: none;
@@ -139,26 +143,38 @@ nav li {
 span {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1B4DFF;
+  color: #00B6FF;
 }
 nav a {
   display: block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
   text-decoration: none;
-  color: #00B6FF;
+  color: #1B4DFF;
 }
 nav ul ul {
   position: absolute;
   top: 100%;
   left: 0;
-  transform: translateY(-20%);
+  transform: translateY(-15%);
+  opacity: 0; /* Initially set the opacity to 0 */
+  visibility: hidden; /* Initially hide the dropdown */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s, scale 0.3s ease;  /* Apply transition */
+  transform-origin: top center; 
+  z-index: 3000;;
 }
 nav ul li:hover > ul {
   display: inherit;
+  opacity: 0.8; /* Make the dropdown visible on hover */
+  visibility: visible; /* Make the dropdown visible on hover */
+  transform: translateY(0) scale(1); /* Bring the dropdown back to its original position and scale it up */
+  transition-delay: 0s;
 }
 nav a:first-of-type {
   border: 0;
+}
+nav a.router-link-exact-active {
+  color: #00B6FF
 }
 #logo-container {
   display: flex;
@@ -167,8 +183,12 @@ nav a:first-of-type {
 }
 #logo {
   display: inline-block;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
+}
+#logo:hover {
+  transform: rotate3d(0, 1, 0.1, 3.142rad);
+  /* transform: scale(1.2); */
 }
 #app > header > div > nav > ul > li:nth-child(5) > ul > a.router-link-active.router-link-exact-active {
   margin: 0;

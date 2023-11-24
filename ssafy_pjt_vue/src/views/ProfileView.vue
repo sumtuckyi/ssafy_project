@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="userStore.user.is_staff" class="staff">
+    <h1>관리자님 안녕하세요!</h1>
+  </div>
+  <div v-else class="container">
     <div class="profile-container">
       <form class="form-list">
         <div class="form-item">
@@ -31,20 +34,20 @@
         <h2>가입한 예금 상품</h2>
         <br>
         <div v-for="deposit in my_deposits">
-          {{ deposit.pk }}: {{ deposit.coname }} - {{ deposit.prdtname }}
+          {{ deposit.pk }}: {{ deposit.coname }} - <RouterLink class="router" :to="{ name: 'depositDetail', params: {id: deposit.fin_prdt_cd} }">{{ deposit.prdtname }}</RouterLink>
         </div>
       </div>
       <div class="product-card">
         <h2>가입한 적금 상품</h2>
         <br>
         <div v-for="saving in my_savings">
-          {{ saving.pk }}: {{ saving.coname }} - {{ saving.prdtname }}
+          {{ saving.pk }}: {{ saving.coname }} - <RouterLink class="router" :to="{ name: 'savingDetail', params: {id: saving.fin_prdt_cd} }">{{ saving.prdtname }}</RouterLink>
         </div>
       </div>
     </div>
-  </div>
-  <div class="canvas">
-    <canvas ref="chartCanvas"></canvas>
+    <div class="canvas">
+      <canvas ref="chartCanvas"></canvas>
+    </div>
   </div>
 </template>
 
@@ -70,7 +73,7 @@ let pkS = 1
 store.depPdtList.forEach((deposit) => {
   deposit.depositoption_set.forEach((option) => {
     if (userStore.user.my_depositoptions.includes(option.id)) {
-      my_deposits.value.push({pk: pkD++, coname: deposit.kor_co_nm, prdtname: deposit.fin_prdt_nm, rate: option.intr_rate2})
+      my_deposits.value.push({pk: pkD++, coname: deposit.kor_co_nm, prdtname: deposit.fin_prdt_nm, rate: option.intr_rate2, fin_prdt_cd: deposit.fin_prdt_cd})
     }
   })
 })
@@ -78,7 +81,7 @@ store.depPdtList.forEach((deposit) => {
 store.savPdtList.forEach((saving) => {
   saving.savingoption_set.forEach((option) => {
     if (userStore.user.my_savingoptions.includes(option.id)) {
-      my_savings.value.push({pk: pkS++, coname: saving.kor_co_nm, prdtname: saving.fin_prdt_nm, rate: option.intr_rate2})
+      my_savings.value.push({pk: pkS++, coname: saving.kor_co_nm, prdtname: saving.fin_prdt_nm, rate: option.intr_rate2, fin_prdt_cd: saving.fin_prdt_cd})
     }
   })
 })
@@ -99,7 +102,8 @@ Chart.register(...registerables)
 const chartCanvas = ref('');
 let chartInstance = null;
 onMounted(() => {
-	chartInstance = new Chart(chartCanvas.value?.getContext('2d'), {
+  if (!userStore.user.is_staff) {
+	  chartInstance = new Chart(chartCanvas.value?.getContext('2d'), {
         type: 'bar',
         data: {
           labels: labels,
@@ -125,11 +129,21 @@ onMounted(() => {
         }
       }}
 			)
+  }
 } )
 
 </script>
 
 <style scoped>
+.router {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+.staff {
+  text-align: center;
+  height: 650px;
+}
 .container {
   width: 80%;
   margin: 0 auto;

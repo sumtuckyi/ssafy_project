@@ -43,7 +43,6 @@ export const useUserStore = defineStore('user', () => {
     '케이뱅크',
     '카카오뱅크',
     '토스뱅크',]
-  const isStaff = ref(false)
 
   const isLogin = computed(() => {
     if (token.value === null) {

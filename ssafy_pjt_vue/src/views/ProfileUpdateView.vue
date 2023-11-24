@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Profile Update</h1>
+  <div class="container">
+    <h1 style="text-align: center;">회원정보 수정</h1>
     <form @submit.prevent="updateProfile" class="form-list">
       <div class="form-item">
         <input class="input" type="text" placeholder="이메일" v-model.trim="email">
@@ -38,16 +38,27 @@ const updateProfile = function () {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  margin-top: 50px;
+}
+.container {
+  height: 750px;
+}
 .form-list {
   text-align: center;
   margin-top: 50px;
   margin-bottom: 100px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 .form-item {
   margin-top: -2px;
 }
 .input {
-  width: 50%;
+  margin-left: 10px;
+  padding-left: 15px;
+  width: 400px;
   height: 50px;
   font-size: 25px;
 }

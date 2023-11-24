@@ -1,8 +1,24 @@
 <template>
     <div class="container">
-        <p class="intro">{{ type_of_pdt }}상품 중 가장 금리가 높은 상품을 보여드릴게요.</p>
+        <p class="intro">해당 기간의 {{ type_of_pdt }} 상품을 금리가 높은 순서로 보여드릴게요.</p>
         <div>
-            <ul>
+            <ul v-if="!moreview">
+                <li v-for="pdt in bestPdt.slice(0, 4)" :key="pdt.id" @click="goDetail(type, pdt.fin_prdt_cd)">
+                    <!-- <p>id: {{ pdt.id }}</p> -->
+                    <div>
+                        <p class="bank-name">{{ pdt.kor_co_nm }}</p>
+                        <p class="pdt-name">{{ pdt.fin_prdt_nm }}</p>
+                    </div>
+                    <div>
+                        <p class="rate">{{ pdt.max_option + '%' }}</p>
+                    </div>
+                    <!-- <p v-for="opt in pdt.opts" :key="opt.id">
+                        <span>최고 우대 금리: {{ opt.intr_rate2 }}</span> <br>
+                        <span v-if="type_of_pdt === '적금'">적립 유형 : {{ opt.rsrv_type_nm }}</span>
+                    </p> -->
+                </li>
+            </ul>
+            <ul v-else>
                 <li v-for="pdt in bestPdt" :key="pdt.id" @click="goDetail(type, pdt.fin_prdt_cd)">
                     <!-- <p>id: {{ pdt.id }}</p> -->
                     <div>
@@ -17,13 +33,17 @@
                         <span v-if="type_of_pdt === '적금'">적립 유형 : {{ opt.rsrv_type_nm }}</span>
                     </p> -->
                 </li>
+            </ul>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button v-if="!moreview" @click="moreview = !moreview">더보기</button>
+                <button v-else @click="moreview = !moreview">접기</button>
+            </div>
                 <!-- <li v-for="pdt in bestPdt" :key="pdt.id">
                     <p>id: {{ pdt.id }}</p>
                     <p>은행 : {{ pdt.fin_co_no }}</p>
                     <p>최고 우대금리 : {{ pdt.intr_rate2 }}</p>
                     <p>적립 유형 : {{ pdt.rsrv_type_nm }}</p>
                 </li> -->
-            </ul>
         </div>
     </div>
 </template>
@@ -43,6 +63,7 @@ const type = route.params.type
 const per = route.params.per 
 const fin_co_no = []
 const type_of_pdt = type === 'dep' ? '예금' : '적금'
+const moreview = ref(false)
 
 // db에서 최고 금리 옵션과 연결된 상품을 찾아서 가져오기 
 // const get_best_four = function () {
@@ -97,7 +118,7 @@ const get_best_four = function () {
         } else {
             return 0
         }
-    }).slice(0, 4)
+    })
 }
 const goDetail = function (pdt_type, key) {
     if (pdt_type === 'dep') {
@@ -162,5 +183,60 @@ span {
 img {
     width: 70px;
     height: 70px;
+}
+button {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+button:-webkit-details-marker {
+  display: none;
 }
 </style>

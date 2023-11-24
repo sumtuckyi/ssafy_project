@@ -20,7 +20,7 @@
 					<p><strong>가입대상 :</strong> {{ data.join_member }}</p>
 					<p><strong>최고한도 :</strong> {{ max_limit }}</p>
 					<p><strong>우대조건 :</strong>우대조건 : {{ data.spcl_cnd }}</p>
-					<p><strong>가입제한 :</strong> {{ data.join_deny }}</p>
+					<!-- <p><strong>가입제한 :</strong> {{ data.join_deny }}</p> -->
 					<p><strong>기타 유의사항 :</strong> {{ data.etc_note }}</p>
 				</div>
 				<div class="buttons">
@@ -35,8 +35,11 @@
 						<div class="opt-item">
 							<p>금리 유형 : {{ opt.intr_rate_type_nm }}</p>
 							<p>저축기간 : {{ opt.save_trm }}개월</p>
-							<p>최고우대금리 : {{ opt.intr_rate2 }}</p>
 							<p>적립 유형 : {{ opt.rsrv_type_nm }}</p>
+							<p v-if="onChange && opt.id === onChangePk">최고우대금리 : <input style="width: 100px; font-size: 16px;" type="number" v-model="intr_rate2" step="0.01"></p>
+							<p v-else>최고우대금리 : {{ opt.intr_rate2 }}</p>
+							<button v-if="userStore.user.is_staff && !onChange" @click="letsChange(opt)">금리 수정</button>
+							<button v-if="onChange && opt.id === onChangePk" @click="changeRate(opt.id)">수정하기</button>
 						</div>
 						<button @click="joinSaving(opt.id)">가입하기</button>
 					</li>
@@ -47,7 +50,7 @@
 		<div v-if="showModal" class="modal">
 				<div class="modal-content">
 					<button @click="closeModal" id="close-btn">닫기</button>
-					<h3>상품 비교하기</h3>
+					<h3>적금 상품 비교하기</h3>
 					<p v-if="isEmpty">아직 담은 상품이 없습니다.</p>
 					<table v-else>
 						<thead>
@@ -66,7 +69,7 @@
 								<td>{{ item.spcl_cnd }}</td>
 								<td>{{ max_limit }}</td>
 								<td>{{ item.etc_note }}</td>
-								<button @click="deletePdt(item.id)">삭제</button>
+								<button class="closebutton" @click="deletePdt(item.id)">X</button>
 							</tr>
 						</tbody>
 					</table>
@@ -188,12 +191,59 @@ onMounted(() => {
 })
 
 const likeProduct = function (fin_prdt_cd) {
-	store.like_savings(fin_prdt_cd)
-	isLike.value = !isLike.value
+	if (!userStore.isLogin) {
+		window.alert('로그인이 필요합니다.')
+		router.push({ name: 'login' })
+	} else {
+		store.like_savings(fin_prdt_cd)
+		// isLike.value = userStore.user.like_deposits.includes(data.value.id)
+		isLike.value = !isLike.value
+		// location.reload()
+	}
 }
 
 const joinSaving = function (opt_pk) {
-	store.join_savings(opt_pk)
+	if (!userStore.isLogin) {
+		window.alert('로그인이 필요합니다.')
+		router.push({ name: 'login' })
+	} else {
+		store.join_savings(opt_pk)
+	}
+}
+
+const onChange = ref(false)
+const onChangePk = ref(null)
+const intr_rate2 = ref(null)
+
+const letsChange = function (opt) {
+	onChange.value = !onChange.value
+	onChangePk.value = opt.id
+	intr_rate2.value = opt.intr_rate2
+}
+
+const changeRate = function (optId) {
+	axios({
+		method: 'put',
+		url: `${store.API_URL}/api2/savings/options/${optId}/change/`,
+		data: {
+			intr_rate2: intr_rate2.value
+		},
+		headers: {
+			Authorization: `Token ${userStore.token}`
+		}
+	})
+		.then((res) => {
+			console.log(res)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+	onChange.value = !onChange.value
+	onChangePk.value = null
+	intr_rate2.value = null
+	showOpts(route.params.id)
+	window.alert('변경이 완료되었습니다.')
+	location.reload()
 }
 
 const goBack = function () {
@@ -250,6 +300,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+	z-index: 9001;
 }
 .modal-content {
 	position: relative;
@@ -273,7 +324,7 @@ h2 {
 #close-btn {
 	position: absolute;
 	top: 10px;
-	left: 10px;
+	right: 10px;
 }
 .card {
 	position: relative;
@@ -328,7 +379,7 @@ table {
 th, td {
   border: 1.5px solid rgba(27, 31, 35, 0.15);
   text-align: left;
-  padding: 10px;
+  padding: 30px 10px;
 }
 
 /* Add background color to alternating rows for better readability */
@@ -400,5 +451,15 @@ button:before {
 
 button:-webkit-details-marker {
   display: none;
+}
+.closebutton {
+	background-color: transparent;
+	border: 1px solid #2374C6;
+	box-shadow: none;
+	color: #2374C6;
+	border-radius: 0;
+	padding: 5px;
+	padding-top: 3px;
+	height: 25px;
 }
 </style>
